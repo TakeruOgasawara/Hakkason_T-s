@@ -13,7 +13,7 @@
 #define PAUSE_MENU			(3)			//ポーズメニューの数
 #define MAX_BUFF			(2)			//バッファの数
 
-//テクスチャファイル名			qqqqqqqqqqqqqqqqqqqqqqqq
+//テクスチャファイル名
 const char *c_apFilenamePause[NUM_PAUSE_TEX] =
 {
 	"data\\TEXTURE\\no.png",
