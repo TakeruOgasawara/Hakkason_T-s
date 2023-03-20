@@ -14,7 +14,9 @@
 #include "fade.h"
 #include "sound.h"
 #include "debugproc.h"
-//俺
+#include "light.h"
+#include "camera.h"
+
 //*****************************
 //マクロ定義
 //*****************************
@@ -39,14 +41,13 @@ void DrawFPS(void);				//FPSの表示処理
 LPDIRECT3D9 g_pD3D = NULL;						//Directx3Dオブジェクトへのポインタ
 LPDIRECT3DDEVICE9 g_pD3DDevice = NULL;			//Directx3Dへのデバイスへのポインタ
 int g_nCountFPS = 0;							//FPSカウンタ
-bool g_DispDebug = false;						//デバッグ表示のON/OFF
+bool g_DispDebug = true;						//デバッグ表示のON/OFF
 bool g_bWireframe = false;						//ワイヤーフレームのON/OFF
-MODE g_mode = MODE_TITLE;						//現在のモード
+MODE g_mode = MODE_GAME;						//現在のモード
 
 //===========================================================================================
 //メイン関数
 //===========================================================================================
-
 int  WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR LpCmadLine, int nCmdShow)
 {
 	WNDCLASSEX wcex
@@ -184,7 +185,9 @@ int  WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR LpCmadLi
 	return (int)msg.wParam;
 }
 
+//===========================================================================================
 //ウィンドウプロシージャ
+//===========================================================================================
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	int nID;							//返り値を格納
@@ -338,7 +341,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	InitDebugProc();
 
 	//ライトの初期化処理
-
+	InitLight();
 
 	//サウンドの初期化
 	//InitSound(hWnd);
@@ -428,24 +431,26 @@ void Update(void)
 		UpdateResult();
 		break;
 	}
-	
-	if (GetKeyboardTrigger(DIK_F1) == true)
-	{//デバッグ表示処理
-		g_DispDebug = g_DispDebug ? false : true;
-	}
+
+#ifdef _DEBUG
 
 	if (GetKeyboardTrigger(DIK_F2) == true)
 	{//ワイヤーフレーム表示処理
+
+		//表示のON/OFF
 		g_bWireframe = g_bWireframe ? false : true;
+
+		if (g_bWireframe == true)
+		{//ワイヤーフレームを表示する
+			pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		}
+		else if (g_bWireframe == false)
+		{//ワイヤーフレームの表示を戻す
+			pDevice->SetRenderState(D3DRS_FILLMODE, D3DRS_ZENABLE);
+		}
 	}
-	if (g_bWireframe == true)
-	{//ワイヤーフレームを表示する
-		pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	}
-	else if (g_bWireframe == false)
-	{//ワイヤーフレームの表示を戻す
-		pDevice->SetRenderState(D3DRS_FILLMODE, D3DRS_ZENABLE);
-	}
+
+#endif
 
 	//フェードの更新処理
 	UpdateFade();
@@ -459,12 +464,17 @@ void Draw(void)
 	//画面をクリア(バックバッファとZバッファのクリア)
 	g_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
 
+#ifdef _DEBUG	//デバック時に表示
+	if (g_DispDebug == true)
+	{
+		//FPSの表示
+		DrawFPS();
+	}
+#endif
+
 	//描画開始
 	if (SUCCEEDED(g_pD3DDevice->BeginScene()))
 	{//描画開始が成功した場合
-
-		//カメラの描画処理
-		//SetCamera();
 
 		//画面の遷移処理
 		switch (g_mode)
@@ -486,17 +496,8 @@ void Draw(void)
 		//フェードの描画処理
 		DrawFade();
 
-		//デバッグプロックの描画処理
-		DrawDebugProc();
-
-#ifdef _DEBUG	//デバック時に表示
-	if (g_DispDebug == true)
-	{
-		//DrawFPS();
-
-		//PrintDebugProc("FPS:%d", g_nCountFPS);
-	}
-#endif
+	//デバッグプロックの描画処理
+	DrawDebugProc();
 
 	//描画終了
 	g_pD3DDevice->EndScene();
@@ -555,14 +556,8 @@ void SetMode(MODE mode)
 //===================================================
 void DrawFPS(void)
 {
-//	RECT rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-//	char aStr[256];
-//
-//	//文字列を代入
-//	wsprintf(&aStr[0], "FPS:%d", g_nCountFPS);
-//
-//	//テキスト描画
-//	g_pFont->DrawTextA(NULL, &aStr[0], -1, &rect, DT_LEFT, D3DCOLOR_RGBA(255, 255, 255, 255));
+	//表示
+	PrintDebugProc("【FPS:%d】\n\n", g_nCountFPS);
 }
 
 //===================================================

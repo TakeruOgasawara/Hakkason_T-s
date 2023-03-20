@@ -29,7 +29,6 @@ LPDIRECT3DTEXTURE9 g_pTextureTutorial[NUM_TEX] = {};					//ƒeƒNƒXƒ`ƒƒ[‚Ö‚Ìƒ|ƒCƒ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffTutorial = NULL;				//’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^
 D3DXVECTOR3 g_pos;
 D3DXCOLOR g_EnterCol;
-float g_TextU;
 STARTT g_StartState;
 int g_nCntStateTile;
 bool g_TutorialState;
@@ -55,7 +54,6 @@ void InitTutorial(void)
 	}
 
 	//ƒOƒ[ƒoƒ‹éŒ¾‚Ì‰Šú‰»
-	g_TextU = 0.0f;
 	g_pos = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
 	g_EnterCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	g_StartState = STARTT_IN;
@@ -90,10 +88,10 @@ void InitTutorial(void)
 	pVtx[2].col = D3DXCOLOR(1.0, 1.0, 1.0, 1.0);
 	pVtx[3].col = D3DXCOLOR(1.0, 1.0, 1.0, 1.0);
 	//ƒeƒNƒXƒ`ƒƒ‚ÌÀ•WÝ’è
-	pVtx[0].tex = D3DXVECTOR2(g_TextU, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(g_TextU + 1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(g_TextU, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(g_TextU + 1.0f, 1.0f);
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
 	//’¸“_ƒoƒbƒtƒ@‚ðƒAƒ“ƒƒbƒN‚·‚é
 	g_pVtxBuffTutorial->Unlock();

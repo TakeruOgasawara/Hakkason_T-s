@@ -6,13 +6,28 @@
 //======================================================================================
 #include "meshfield.h"
 
+//**********************************
 //マクロ定義
-#define BG_TEX_FULE		"data\\TEXTURE\\field00.png"			//奥背景の画像を読み込む
-#define FILED_WIDTH		(50.0f)								//横幅
-#define FIELD_HEIGHT	(50.0f)								//縦幅
+//**********************************
+#define MAX_TEX			(1)
+#define FILED_WIDTH		(100.0f)			//横幅
+#define FIELD_HEIGHT	(100.0f)			//縦幅
 
+#define SPLIT_X			(2)					//分割数(x)
+#define SPLIT_Y			(2)					//分割数(z)
+
+//***********************************
+//テクスチャの読み込み
+//***********************************
+const char *c_apTexMeshFeald[] =
+{
+	"data\\TEXTURE\\RESULT\\result.png"
+};
+
+//***********************************
 //グローバル定義
-LPDIRECT3DTEXTURE9 g_pTextureMeshField = NULL;				//テクスチャへのポインタ
+//***********************************
+LPDIRECT3DTEXTURE9 g_pTextureMeshField[MAX_TEX] = {};				//テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffMeshField = NULL;			//頂点バッファへのポインタ
 LPDIRECT3DINDEXBUFFER9 g_pIdxBuffMeshfield = NULL;			//インデックスバッファへのポインタ
 MeshField g_aMeshfield[MAX_MESHFIELD];			//フィールド情報
@@ -25,8 +40,10 @@ void InitMeshField(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, BG_TEX_FULE, &g_pTextureMeshField);
+	for (int nCntTex = 0; nCntTex < MAX_TEX; nCntTex++)
+	{//テクスチャの読み込み
+		D3DXCreateTextureFromFile(pDevice, c_apTexMeshFeald[nCntTex], &g_pTextureMeshField[nCntTex]);
+	}
 
 	//変数の初期化
 	for (int nCnt = 0; nCnt < MAX_MESHFIELD; nCnt++)
@@ -48,7 +65,7 @@ void InitMeshField(void)
 	g_pVtxBuffMeshField->Lock(0, 0, (void**)&pVtx, 0);
 
 	//頂点座標の設定
-	pVtx[0].pos = D3DXVECTOR3(-FILED_WIDTH, 0.0f, FIELD_HEIGHT);
+	/*pVtx[0].pos = D3DXVECTOR3(-FILED_WIDTH, 0.0f, FIELD_HEIGHT);
 	pVtx[1].pos = D3DXVECTOR3(0.0f, 0.0f, FIELD_HEIGHT);
 	pVtx[2].pos = D3DXVECTOR3(FILED_WIDTH, 0.0f, FIELD_HEIGHT);
 	pVtx[3].pos = D3DXVECTOR3(-FILED_WIDTH, 0.0f, 0.0f);
@@ -56,22 +73,37 @@ void InitMeshField(void)
 	pVtx[5].pos = D3DXVECTOR3(FILED_WIDTH, 0.0f, 0.0f);
 	pVtx[6].pos = D3DXVECTOR3(-FILED_WIDTH, 0.0f, -FIELD_HEIGHT);
 	pVtx[7].pos = D3DXVECTOR3(0.0f, 0.0f, -FIELD_HEIGHT);
-	pVtx[8].pos = D3DXVECTOR3(FILED_WIDTH, 0.0f, -FIELD_HEIGHT);
-	//法線ベクトルの設定
-	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[4].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[5].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[6].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[7].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[8].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	//頂点カラー(0.0f～1.0f内で設定)
-	for (int nCntColor = 0; nCntColor < 9; nCntColor++)
+	pVtx[8].pos = D3DXVECTOR3(FILED_WIDTH, 0.0f, -FIELD_HEIGHT);*/
+
+	//変数の初期化
+	int nCnt = 0;
+
+	for (int nCnt0 = 0; nCnt0 < SPLIT_Y + 1; nCnt0++)
 	{
-		pVtx[nCntColor].col = D3DXCOLOR(0.5f, 1.0f, 1.0f, 1.0f);
+		for (int nCnt1 = 0; nCnt1 < SPLIT_X + 1; nCnt1++)
+		{
+			//頂点座標の計算(x)
+			pVtx[nCnt].pos.x = nCnt1 * (FILED_WIDTH * 0.5f) - (FILED_WIDTH * 0.5f);
+
+			//頂点座標の計算(z)
+			pVtx[nCnt].pos.z = (FIELD_HEIGHT * 0.5f) - nCnt0 * (FIELD_HEIGHT * 0.5f);
+
+			if (nCnt < ((SPLIT_X + 1) * (SPLIT_Y + 1)))
+			{
+				//カウント
+				nCnt++;
+			}
+		}
 	}
+
+	for (int nCntColor = 0; nCntColor < ((SPLIT_X + 1) * (SPLIT_Y + 1)); nCntColor++)
+	{
+		//法線ベクトルの設定
+		pVtx[nCntColor].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+
+		pVtx[nCntColor].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
 	//テクスチャの座標設定
 	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
 	pVtx[1].tex = D3DXVECTOR2(0.5f, 0.0f);
@@ -116,6 +148,8 @@ void InitMeshField(void)
 
 	//インデックスバッファをアンロックする
 	g_pIdxBuffMeshfield->Unlock();
+
+	SetMeshField(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 0);
 }
 
 //====================================================================
@@ -123,11 +157,14 @@ void InitMeshField(void)
 //====================================================================
 void UninitMeshField(void)
 {
-	//テクスチャの破棄
-	if (g_pTextureMeshField != NULL)
+	for (int nCntTex = 0; nCntTex < MAX_TEX; nCntTex++)
 	{
-		g_pTextureMeshField->Release();
-		g_pTextureMeshField = NULL;
+		//テクスチャの破棄
+		if (g_pTextureMeshField[nCntTex] != NULL)
+		{
+			g_pTextureMeshField[nCntTex]->Release();
+			g_pTextureMeshField[nCntTex] = NULL;
+		}
 	}
 	//頂点バッファの破棄
 	if (g_pVtxBuffMeshField != NULL)
@@ -186,14 +223,9 @@ void DrawMeshField(void)
 
 			//頂点フォーマットの設定
 			pDevice->SetFVF(FVF_VERTEX_3D);
-
+		
 			//テクスチャの設定
-			pDevice->SetTexture(0, g_pTextureMeshField);
-
-			//ポリゴンの描画
-			//pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,				//プリミティブの種類
-			//	0,						//描画する最初のインデックス
-			//	12);
+			pDevice->SetTexture(0, g_pTextureMeshField[0]);
 
 			//ポリゴンの描画
 			pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0,
@@ -216,6 +248,7 @@ void SetMeshField(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nTexType)
 			g_aMeshfield[nCnt].pos = pos;
 			g_aMeshfield[nCnt].rot = rot;
 			g_aMeshfield[nCnt].nTexType = nTexType;
+			g_aMeshfield[nCnt].bUse = true;
 		}
 	}
 }

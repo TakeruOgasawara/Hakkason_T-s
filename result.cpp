@@ -12,7 +12,7 @@
 #include "sound.h"
 
 //画像のファイル名
-#define MAX_TEX		(2)
+#define MAX_TEX		(1)
 
 //リザルト構造体の定義
 typedef struct
@@ -23,30 +23,24 @@ typedef struct
 //テクスチャファイル名
 const char *c_apFilenameResult[MAX_TEX] =
 {
-	"data\\TEXTURE\\no.png",			//背景の画像を読み込む
 	"data\\TEXTURE\\RESULT\\result.png",			//背景の画像を読み込む
 };
 
 //プロトタイプ宣言
-void ResultBg(int nCnt);
-void InitYourScore(int nCnt);
+void ResultBg(void);
 
 //グローバル変数
-LPDIRECT3DTEXTURE9 g_pTextureResult[MAX_TEX] = {};					//テクスチャーへのポインタ
+LPDIRECT3DTEXTURE9 g_pTextureResult[MAX_TEX] = {};				//テクスチャーへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffResult = NULL;				//頂点バッファへのポインタ
 Result g_Result;
-int g_Score;
 
 //========================================================================
 // リザルトの初期化処理
 //========================================================================
 void InitResult(void)
 {
-	//デバイスへのポインタ
-	LPDIRECT3DDEVICE9 pDevice;
-
 	//デバイスの取得
-	pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//テクスチャの読み込み
 	for (int nCntTexture = 0; nCntTexture < MAX_TEX; nCntTexture++)
@@ -62,93 +56,39 @@ void InitResult(void)
 		&g_pVtxBuffResult,
 		NULL);
 
-	for (int nCnt = 0; nCnt < MAX_TEX; nCnt++)
-	{
-		switch (nCnt)
-		{
-		case 0:
-			ResultBg(nCnt);
-			break;
-		case 1:
-			InitYourScore(nCnt);
-			break;
-		}
-	}
-
-	//サウンドの再生
-	//PlaySound(SOUND_LABEL_BGM001);
+		//リザルト背景の初期化
+		ResultBg();
 }
 
 //---------------------------------------------------------
 // リザルト背景
 //---------------------------------------------------------
-void ResultBg(int nCnt)
+void ResultBg(void)
 {
 	//頂点情報へのポインタ
 	VERTEX_2D *pVtx;
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	g_pVtxBuffResult->Lock(0, 0, (void**)&pVtx, 0);
-
-	pVtx += 4 * nCnt;
-
-	g_Result.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	//頂点座標の設定
 	pVtx[0].pos = D3DXVECTOR3(g_Result.pos.x, g_Result.pos.y, 0.0f);
 	pVtx[1].pos = D3DXVECTOR3(g_Result.pos.x + 1280.0f, g_Result.pos.y, 0.0f);
 	pVtx[2].pos = D3DXVECTOR3(g_Result.pos.x, g_Result.pos.y + 720.0f, 0.0f);
 	pVtx[3].pos = D3DXVECTOR3(g_Result.pos.x + 1280.0f, g_Result.pos.y + 720.0f, 0.0f);
+
 	//rhwの設定
 	pVtx[0].rhw = 1.0f;
 	pVtx[1].rhw = 1.0f;
 	pVtx[2].rhw = 1.0f;
 	pVtx[3].rhw = 1.0f;
-	//頂点カラー(0.0f～1.0f内で設定)
-	pVtx[0].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-	pVtx[1].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-	pVtx[2].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-	pVtx[3].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-	//テクスチャの座標設定
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
-	//頂点バッファをアンロックする
-	g_pVtxBuffResult->Unlock();
-}
-
-//-------------------------------------------
-// スコア画面(YourScore)
-//-------------------------------------------
-void InitYourScore(int nCnt)
-{
-	//頂点情報へのポインタ
-	VERTEX_2D *pVtx;
-
-	//頂点バッファをロックし、頂点情報へのポインタを取得
-	g_pVtxBuffResult->Lock(0, 0, (void**)&pVtx, 0);
-
-	pVtx += 4 * nCnt;
-
-	g_Result.pos = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
-
-	//頂点座標の設定
-	pVtx[0].pos = D3DXVECTOR3(g_Result.pos.x, g_Result.pos.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(g_Result.pos.x + 300.0f, g_Result.pos.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(g_Result.pos.x, g_Result.pos.y + 50.0f, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(g_Result.pos.x + 300.0f, g_Result.pos.y + 50.0f, 0.0f);
-	//rhwの設定
-	pVtx[0].rhw = 1.0f;
-	pVtx[1].rhw = 1.0f;
-	pVtx[2].rhw = 1.0f;
-	pVtx[3].rhw = 1.0f;
 	//頂点カラー(0.0f～1.0f内で設定)
 	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
 	//テクスチャの座標設定
 	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
 	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
@@ -193,10 +133,11 @@ void UpdateResult(void)
 	Fade pFade = GetFade();
 
 	if (pFade == FADE_NONE)
-	{
+	{//フェード状態じゃない場合
+
 		if (GetKeyboardTrigger(DIK_RETURN) == true || GetJoyPadTrigger(BUTTON_A, 0) == true)
 		{//決定キー(ENTERキー)が押された
-		 //モードの設定(ゲーム画面に移行)
+			//モードの設定(タイトル画面に移行)
 			SetFade(MODE_TITLE);
 		}
 	}

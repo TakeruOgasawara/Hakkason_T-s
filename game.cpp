@@ -1,30 +1,28 @@
 //===========================================================================================
 //
-//[game.cpp]
-//Author:小笠原　彪
+// ゲーム中の動作[game.cpp]
+// Author:小笠原　彪
 //
 //===========================================================================================
 #include "input.h"
 #include "effect.h"
-#include "particle.h"
 #include "particle.h"
 #include "time.h"
 #include "game.h"
 #include "fade.h"
 #include "pause.h"
 #include "sound.h"
+#include "meshfield.h"
+#include "camera.h"
+#include "light.h"
 
 //*****************************
 // プロトタイプ宣言
 //*****************************
-//void SlowUpdate(void);
 
 //*****************************
 //グローバル宣言
 //*****************************
-LPDIRECT3D9 g_pDGame = NULL;						//Directx3Dオブジェクトへのポインタ
-LPDIRECT3DDEVICE9 g_pD3DDeviceGame = NULL;			//Directx3Dへのデバイスへのポインタ
-LPD3DXFONT g_pFontGame = NULL;						//フォントへのポインタ
 GAMESTATE g_gameState = GAMESTATE_NONE;				//ゲームの状態
 int g_nCounterGameState = 0;						//状態管理のカウンター
 bool g_bPause = false;								//ポーズ状態のON/OFF
@@ -37,8 +35,10 @@ void InitGame(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	InitLight();
+
 	//カメラの初期化処理
-	//InitCamera();
+	InitCamera();
 
 	//エフェクトの初期化処理
 	InitEffect();
@@ -48,6 +48,9 @@ void InitGame(void)
 
 	//ポーズの初期化処理
 	InitPause();
+
+	//メッシュフィールドの初期化処理
+	InitMeshField();
 
 	//通常状態へ
 	g_gameState = GAMESTATE_NORMAL;
@@ -63,9 +66,6 @@ void InitGame(void)
 
 	//サウンドの再生
 	//PlaySound(SOUND_LABEL_BGM000);
-
-	//デバック表示用フォントの生成
-	D3DXCreateFont(pDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "Terminal", &g_pFontGame);
 }
 //========================================================================
 //ゲーム画面の終了処理
@@ -84,12 +84,8 @@ void UninitGame(void)
 	//ポーズの終了処理
 	UninitPause();
 
-	//デバック表示用フォントの破棄
-	if (g_pFontGame != NULL)
-	{
-		g_pFontGame->Release();
-		g_pFontGame = NULL;
-	}
+	//メッシュフィールドの終了処理
+	UninitMeshField();
 }
 
 //========================================================================
@@ -97,29 +93,40 @@ void UninitGame(void)
 //========================================================================
 void UpdateGame(void)
 {
-	//ポーズ情報の取得
-	Pause *pPause = GetPause();
-	Fade pFade = GetFade();
+	//情報の取得
+	Pause *pPause = GetPause();			//ポーズ
+	Fade pFade = GetFade();				//フェード
 
 	if (pFade == FADE_NONE)
-	{
+	{//フェード状態じゃない場合
+
 		if (GetKeyboardTrigger(DIK_P) == true || GetJoyPadTrigger(BUTTON_START, 0) == true)
-		{//ポーズ処理
+		{//キーが押された場合
+			//ポーズのON/OFF
 			pPause->bPause = pPause->bPause ? false : true;
 		}
+		if (GetKeyboardTrigger(DIK_P) == true || GetJoyPadTrigger(BUTTON_START, 0) == true && pPause->bPause == false)
+		{//ポーズ処理
+			//ポーズの初期化
+			InitPause();
+		}
 
+		//ポーズが使われているとき
 		if (pPause->bPause == true)
 		{
+			//ポーズの更新処理
 			UpdatePause();
 		}
 
-
+		//ゲームを回すため(後で消す)
 		if (GetKeyboardTrigger(DIK_RETURN) == true || GetJoyPadTrigger(BUTTON_A, 0) == true)
 		{//決定キー(ENTERキー)が押された
-		 //モードの設定(ゲーム画面に移行)
+			//モードの設定(ゲーム画面に移行)
 			SetFade(MODE_RESULT);
 		}
 	}
+
+	UpdateCamera();
 
 	//if (g_gameState == GAMESTATE_END)
 	//{//条件がそろう時に行える
@@ -155,6 +162,12 @@ void DrawGame(void)
 {
 	//ポーズ情報の取得
 	Pause *pPause = GetPause();
+
+	//カメラのセット
+	SetCamera(0);
+
+	//メッシュフィールドの描画処理
+	DrawMeshField();
 
 	//エフェクトの描画処理
 	DrawEffect();
