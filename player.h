@@ -68,7 +68,6 @@ void ControlPlayerKeyboard(void);
 void ControlPlayerPad(void);
 
 //‚»‚Ì‘¼
-void FactingPlayerRot(void);
 void FactingRot(float *pfRot,float fRotDest);
 
 #endif // !_PLAYER_H_
