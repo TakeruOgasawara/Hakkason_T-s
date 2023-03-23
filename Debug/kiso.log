@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 ﻿  game.cpp
   kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.exe
   kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+=======
+﻿  camera.cpp
+  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.exe
+  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+>>>>>>> 5c8cbbb53c9e4623c7558daa1b9cc3a6c1c3c58a
