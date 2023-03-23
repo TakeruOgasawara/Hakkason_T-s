@@ -135,7 +135,7 @@ void FollowPlayer(void)
 
 		//視点の相対位置設定
 		g_aCamera[nCnt].posV.x = g_aCamera[nCnt].posR.x;
-		g_aCamera[nCnt].posV.y = g_aCamera[nCnt].posR.y + 40.0f;			//視点Y
+		g_aCamera[nCnt].posV.y = g_aCamera[nCnt].posR.y + 30.0f;			//視点Y
 		g_aCamera[nCnt].posV.z = g_aCamera[nCnt].posR.z - g_aCamera[nCnt].fLengthCamera * 1.2f;
 	}
 }

@@ -12,6 +12,8 @@
 #include "sound.h"
 #include "point.h"
 #include "point_log.h"
+#include "time.h"
+#include <stdio.h>
 
 //画像のファイル名
 #define MAX_TEX		(1)
@@ -69,6 +71,66 @@ void InitResult(void)
 
 		//サウンドの再生
 		//PlaySound(SOUND_LABEL_BGM000);
+
+	//ソート処理=========================
+	int nHighScore;
+
+	//ポインタ宣言
+	FILE *pFile;
+
+	//ファイルを開く
+	pFile = fopen("data/SAVE/ranking.bin", "rb");
+
+	if (pFile != NULL)
+	{//ファイルが開けた場合
+
+		//バイナリファイルから読み込む
+		fread(&nHighScore, sizeof(int), 1, pFile);
+
+		//ファイルを閉じる
+		fclose(pFile);
+	}
+	else
+	{//ファイルが開けなかった場合
+	}
+
+	//nHighScore = 180;
+	//ソート処理=========================
+
+	if (nHighScore < GetTime())
+	{//更新した場合
+		nHighScore = GetTime();
+
+		//ファイルを開く
+		pFile = fopen("data/SAVE/ranking.bin", "wb");
+
+		if (pFile != NULL)
+		{//ファイルが開けた場合
+
+			 //バイナリファイルに書き込む
+			fwrite(&nHighScore, sizeof(int), 1, pFile);
+
+			//ファイルを閉じる
+			fclose(pFile);
+		}
+		else
+		{//ファイルが開けなかった場合
+		}
+	}
+
+	int nMinite = INITIAL_MINITE - nHighScore / 60 - 1;
+	int nSecond = 60 - nHighScore % 60;
+
+	//最速スコア表示
+	SetPointScore(nMinite, D3DXVECTOR3(500.0f, 200.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_MINITE, 1.0f, LOGTYPE_NOW);
+	SetPointScore(nSecond, D3DXVECTOR3(650.0f, 200.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_SECOND, 1.0f, LOGTYPE_NOW);
+
+	nMinite = INITIAL_MINITE - GetTime() / 60 - 1;
+	nSecond = 60 - GetTime() % 60;
+
+	//あなたのスコア表示
+	SetPointScore(nMinite, D3DXVECTOR3(500.0f, 300.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_MINITE, 1.0f, LOGTYPE_NOW);
+	SetPointScore(nSecond,D3DXVECTOR3(650.0f,300.0f,0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f),POINTTYPE_SECOND,1.0f,LOGTYPE_NOW);
 }
 
 //---------------------------------------------------------

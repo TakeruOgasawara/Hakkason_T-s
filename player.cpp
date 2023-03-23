@@ -23,11 +23,13 @@
 #define FORWARD_FACT	(0.999f)	//ˆÚ“®—Ê‚ÌŒ¸ŠŒW”
 #define ROTATE_FACT	(0.04f)	//Œü‚«‚Ì•â³ŒW”
 #define ROT_CURV_Z	(D3DX_PI * 0.9f)	//ŒX‚¯‚½‚Ì‹È‚ª‚è•ûZ
-#define ROT_CURV_Y	(D3DX_PI * 0.92f)	//ŒX‚¯‚½‚Ì‹È‚ª‚è•ûY
+#define ROT_CURV_Y	(D3DX_PI * 0.96f)	//ŒX‚¯‚½‚Ì‹È‚ª‚è•ûY
 #define MAX_MOVE	(1.75f)	//ˆÚ“®—Ê‚ÌÅ‘å
-#define ROLL_FACT	(0.7f)	//ƒJƒƒ‰‚ª‰ñ“]‚·‚é”{—¦
-#define SPEED_FORWARD	(0.05f)	//‘Oi‚·‚é‰Á‘¬—Ê
+#define ROLL_FACT	(0.8f)	//ƒJƒƒ‰‚ª‰ñ“]‚·‚é”{—¦
+#define SPEED_FORWARD	(0.055f)	//‘Oi‚·‚é‰Á‘¬—Ê
 #define BREAKE_FACT	(0.98f)	//ƒuƒŒ[ƒL‚ÌŒ¸ŠŒW”
+
+#define CURV_SPEED	(15.0f)	//‹È‚ª‚ê‚é‚Ü‚Å‚ÌƒXƒs[ƒh
 
 //***************************
 //ƒOƒ[ƒoƒ‹éŒ¾
@@ -237,8 +239,17 @@ void ControlPlayerKeyboard(void)
 	//ˆÚ“®==================================
 	if (GetKeyboardPress(nLeft))
 	{//¶ˆÚ“®
-		//ˆÚ“®—Ê‰ÁZ
-		g_player.move.x -= MOVE_SPEED;
+
+		if (g_player.move.z < CURV_SPEED)
+		{
+			//ˆÚ“®—Ê‰ÁZ
+			g_player.move.x -= g_player.move.z / CURV_SPEED * MOVE_SPEED;
+		}
+		else
+		{
+			//ˆÚ“®—Ê‰ÁZ
+			g_player.move.x -= MOVE_SPEED;
+		}
 
 		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 
@@ -246,8 +257,16 @@ void ControlPlayerKeyboard(void)
 	}
 	else if (GetKeyboardPress(nRight))
 	{//‰EˆÚ“®
-		//ˆÚ“®—Ê‰ÁZ
-		g_player.move.x += MOVE_SPEED;
+		if (g_player.move.z < CURV_SPEED)
+		{
+			//ˆÚ“®—Ê‰ÁZ
+			g_player.move.x += g_player.move.z / CURV_SPEED * MOVE_SPEED;
+		}
+		else
+		{
+			//ˆÚ“®—Ê‰ÁZ
+			g_player.move.x += MOVE_SPEED;
+		}
 
 		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 
@@ -273,8 +292,6 @@ void ControlPlayerKeyboard(void)
 			g_player.move.z = g_player.move.z * FORWARD_FACT;
 		}
 	}
-
-
 	//ˆÚ“®==================================
 
 	//Œü‚«‚ğ–ß‚·============================
@@ -300,7 +317,16 @@ void ControlPlayerKeyboard(void)
 void ControlPlayerPad(void)
 {
 	//‰¡ˆÚ“®========================
-	g_player.move.x += GetJoyStickLX(0) * MOVE_SPEED;
+	if (g_player.move.z < CURV_SPEED)
+	{
+		//ˆÚ“®—Ê‰ÁZ
+		g_player.move.x += g_player.move.z / CURV_SPEED * MOVE_SPEED * GetJoyStickLX(0);
+	}
+	else
+	{
+		//ˆÚ“®—Ê‰ÁZ
+		g_player.move.x += GetJoyStickLX(0) * MOVE_SPEED;
+	}
 	//‰¡ˆÚ“®========================
 
 	if (GetJoyPadPress(BUTTON_RB,0))
