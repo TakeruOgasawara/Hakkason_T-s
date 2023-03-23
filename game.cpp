@@ -17,6 +17,7 @@
 #include "camera.h"
 #include "light.h"
 #include "player.h"
+#include "Enemy.h"
 #include "fog.h"
 
 //*****************************
@@ -68,6 +69,7 @@ void InitGame(void)
 	//プレイヤーの初期化
 	InitPlayer();
 
+	InitEnemy();
 	//フォグの初期化
 	InitFog();
 
@@ -87,7 +89,7 @@ void InitGame(void)
 	pPause->bPause = false;
 
 	//サウンドの再生
-	//PlaySound(SOUND_LABEL_BGM000);
+	PlaySound(SOUND_LABEL_BGM001);
 }
 //========================================================================
 //ゲーム画面の終了処理
@@ -95,11 +97,12 @@ void InitGame(void)
 void UninitGame(void)
 {
 	//サウンドの停止
-	//StopSound();
+	StopSound();
 
 	//プレイヤー終了処理
 	UninitPlayer();
 
+	UninitEnemy();
 	//エフェクトの終了処理
 	UninitEffect();
 
@@ -138,6 +141,12 @@ void UpdateGame(void)
 
 		//タイムの更新
 		UpdateTime();
+
+		UpdateEnemy();
+
+		UpdateEffect();
+
+		UpdateParticle();
 
 		if (GetKeyboardTrigger(DIK_P) == true || GetJoyPadTrigger(BUTTON_START, 0) == true)
 		{//キーが押された場合
@@ -225,6 +234,8 @@ void DrawGame(void)
 
 	//プレイヤーの描画
 	DrawPlayer();
+
+	DrawEnemy();
 
 	//タイムの描画
 	DrawTime();

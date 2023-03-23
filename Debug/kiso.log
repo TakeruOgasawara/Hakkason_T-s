@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 ﻿  result.cpp
   kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s - コピー\Debug\kiso.exe
   kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s - コピー\Debug\kiso.pdb (Full PDB)
+=======
+﻿LINK : fatal error LNK1201: プログラム データベース 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.pdb' に書き込み中にエラーが発生しました。ディスク容量の不足、無効なパス、または特権の不足が原因でないことを確認してください。
+>>>>>>> d8af20192e9eebc583f54bb5b86b1c7ecae22a99

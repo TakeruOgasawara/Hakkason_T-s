@@ -69,6 +69,9 @@ void InitResult(void)
 	//スコアメッセージ初期化
 	InitPointLog();
 
+		//サウンドの再生
+		//PlaySound(SOUND_LABEL_BGM000);
+
 	//ソート処理=========================
 	int nHighScore;
 
