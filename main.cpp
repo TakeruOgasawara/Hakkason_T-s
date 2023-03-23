@@ -346,7 +346,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	InitLight();
 
 	//サウンドの初期化
-	//InitSound(hWnd);
+	InitSound(hWnd);
 
 	//モデル情報初期化
 	InitModel();

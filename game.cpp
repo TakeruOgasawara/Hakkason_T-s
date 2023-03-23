@@ -89,7 +89,7 @@ void InitGame(void)
 	pPause->bPause = false;
 
 	//サウンドの再生
-	//PlaySound(SOUND_LABEL_BGM000);
+	PlaySound(SOUND_LABEL_BGM001);
 }
 //========================================================================
 //ゲーム画面の終了処理
@@ -97,7 +97,7 @@ void InitGame(void)
 void UninitGame(void)
 {
 	//サウンドの停止
-	//StopSound();
+	StopSound();
 
 	//プレイヤー終了処理
 	UninitPlayer();
