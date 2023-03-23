@@ -19,6 +19,11 @@
 #include "player.h"
 
 //*****************************
+// マクロ定義
+//*****************************
+#define GOAL_DIST	(100000.0f)	//ゴールまでの距離
+
+//*****************************
 // プロトタイプ宣言
 //*****************************
 
@@ -112,6 +117,7 @@ void UpdateGame(void)
 	//情報の取得
 	Pause *pPause = GetPause();			//ポーズ
 	Fade pFade = GetFade();				//フェード
+	Player *pPlayer = GetPlayer();
 
 	if (pFade == FADE_NONE)
 	{//フェード状態じゃない場合
@@ -155,6 +161,12 @@ void UpdateGame(void)
 		switch (g_gameState)
 		{
 		case GAMESTATE_NORMAL:			//通常状態
+
+			if (pPlayer->pos.z > GOAL_DIST)
+			{//ゴール判定
+				g_gameState = GAMESTATE_END;
+			}
+
 			break;
 
 		case GAMESTATE_END:				//終了状態
