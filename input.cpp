@@ -235,37 +235,37 @@ void UpdateJoyPad(void)
 //===================================================================
 //ジョイスティック情報取得
 //===================================================================
-SHORT GetJoyStickLX(int nPlayer)
+float GetJoyStickLX(int nPlayer)
 {
 	//情報を返す
-	return g_aGamePadState[nPlayer].Gamepad.sThumbLX;
+	return (float)g_aGamePadState[nPlayer].Gamepad.sThumbLX / SHRT_MAX;
 }
 
 //===================================================================
 //ジョイスティック情報取得
 //===================================================================
-SHORT GetJoyStickLY(int nPlayer)
+float GetJoyStickLY(int nPlayer)
 {
 	//情報を返す
-	return g_aGamePadState[nPlayer].Gamepad.sThumbLY;
+	return (float)g_aGamePadState[nPlayer].Gamepad.sThumbLY / SHRT_MAX;
 }
 
 //===================================================================
 //ジョイスティック情報取得
 //===================================================================
-SHORT GetJoyStickRX(int nPlayer)
+float GetJoyStickRX(int nPlayer)
 {
 	//情報を返す
-	return g_aGamePadState[nPlayer].Gamepad.sThumbRX;
+	return (float)g_aGamePadState[nPlayer].Gamepad.sThumbRX / SHRT_MAX;
 }
 
 //===================================================================
 //ジョイスティック情報取得
 //===================================================================
-SHORT GetJoyStickRY(int nPlayer)
+float GetJoyStickRY(int nPlayer)
 {
 	//情報を返す
-	return g_aGamePadState[nPlayer].Gamepad.sThumbRY;
+	return (float)g_aGamePadState[nPlayer].Gamepad.sThumbRY / SHRT_MAX;
 }
 
 //========================================================================

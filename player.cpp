@@ -163,6 +163,26 @@ void UpdatePlayer(void)
 	//向き補正処理
 	FactingRot(&g_player.rot.z, g_player.rotDest.z);
 	FactingRot(&g_player.rot.y,g_player.rotDest.y);
+
+	//プレイヤーの傾き設定====================================
+	if (g_player.move.x < 0.0f)
+	{//マイナス方向に進んでいる場合
+		g_player.rotDest.z = -D3DX_PI + -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Z - -D3DX_PI);
+	}
+	else
+	{//プラス方向に進んでいる場合
+		g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV_Z - D3DX_PI);
+	}
+
+	if (g_player.move.x < 0.0f)
+	{//マイナス方向に進んでいる場合
+		g_player.rotDest.y = -D3DX_PI - -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Y - -D3DX_PI);
+	}
+	else
+	{//プラス方向に進んでいる場合
+		g_player.rotDest.y = D3DX_PI - (g_player.move.x / MAX_MOVE) * (ROT_CURV_Y - D3DX_PI);
+	}
+	//プレイヤーの傾き設定====================================
 }
 
 //===========================
@@ -220,25 +240,6 @@ void ControlPlayerKeyboard(void)
 		//移動量加算
 		g_player.move.x -= MOVE_SPEED;
 
-		//プレイヤーの傾き設定
-		if (g_player.move.x < 0.0f)
-		{//マイナス方向に進んでいる場合
-			g_player.rotDest.z = -D3DX_PI + -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Z - -D3DX_PI);
-		}
-		else
-		{//プラス方向に進んでいる場合
-			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV_Z - D3DX_PI);
-		}
-
-		if (g_player.move.x < 0.0f)
-		{//マイナス方向に進んでいる場合
-			g_player.rotDest.y = -D3DX_PI - -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Y - -D3DX_PI);
-		}
-		else
-		{//プラス方向に進んでいる場合
-			g_player.rotDest.y = D3DX_PI - (g_player.move.x / MAX_MOVE) * (ROT_CURV_Y - D3DX_PI);
-		}
-
 		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 
 		pCamera->fRoll *= ROLL_FACT;
@@ -247,25 +248,6 @@ void ControlPlayerKeyboard(void)
 	{//右移動
 		//移動量加算
 		g_player.move.x += MOVE_SPEED;
-
-		//プレイヤーの傾き設定
-		if (g_player.move.x < 0.0f)
-		{//マイナス方向に進んでいる場合
-			g_player.rotDest.z = -D3DX_PI + -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Z - -D3DX_PI);
-		}
-		else
-		{//プラス方向に進んでいる場合
-			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV_Z - D3DX_PI);
-		}
-
-		if (g_player.move.x < 0.0f)
-		{//マイナス方向に進んでいる場合
-			g_player.rotDest.y = -D3DX_PI - -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Y - -D3DX_PI);
-		}
-		else
-		{//プラス方向に進んでいる場合
-			g_player.rotDest.y = D3DX_PI - (g_player.move.x / MAX_MOVE) * (ROT_CURV_Y - D3DX_PI);
-		}
 
 		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 
@@ -317,7 +299,25 @@ void ControlPlayerKeyboard(void)
 //===========================
 void ControlPlayerPad(void)
 {
+	//横移動========================
+	g_player.move.x += GetJoyStickLX(0) * MOVE_SPEED;
+	//横移動========================
 
+	if (GetJoyPadPress(BUTTON_RB,0))
+	{
+		g_player.move.z += SPEED_FORWARD;
+	}
+	else
+	{
+		if (GetJoyPadPress(BUTTON_LB, 0))
+		{//ブレーキ
+			g_player.move.z = g_player.move.z * BREAKE_FACT;
+		}
+		else
+		{//通常減衰
+			g_player.move.z = g_player.move.z * FORWARD_FACT;
+		}
+	}
 }
 
 //===========================

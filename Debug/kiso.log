@@ -1,6 +1,39 @@
+<<<<<<< HEAD
 ﻿  Enemy.cpp
 c:\users\student\desktop\チーム制作\hakkason_t-s\enemy.cpp(125): warning C4101: 'nNumVtx': ローカル変数は 1 度も使われていません。
 c:\users\student\desktop\チーム制作\hakkason_t-s\enemy.cpp(126): warning C4101: 'dwSizeFVF': ローカル変数は 1 度も使われていません。
 c:\users\student\desktop\チーム制作\hakkason_t-s\enemy.cpp(127): warning C4101: 'pVtxBuff': ローカル変数は 1 度も使われていません。
   kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.exe
   kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+=======
+<<<<<<< HEAD
+﻿  result.cpp
+  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.exe
+  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+=======
+<<<<<<< HEAD
+﻿  game.cpp
+sound.obj : warning LNK4204: 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+meshfield.obj : warning LNK4204: 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+light.obj : warning LNK4204: 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+fade.obj : warning LNK4204: 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.exe
+  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+=======
+<<<<<<< HEAD
+﻿  game.cpp
+=======
+<<<<<<< HEAD
+﻿  title.cpp
+cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
+  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.exe
+  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+=======
+﻿  player.cpp
+>>>>>>> 2035c77290fcaab116b3ce8b8bd1e0aa75be3e31
+  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.exe
+  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+>>>>>>> 9bd4f9ba9a5273b96b5edc9b155c26f20e4866e3
+>>>>>>> 5ea4e461a345c3ecba0721c768a5a53af00f673b
+>>>>>>> 4e7eb80ddb9002b2dd2e69d2b96289dd9ff8b2c5
+>>>>>>> abc1adc934d527a7251e15859bd3fa6c79d2f0e3

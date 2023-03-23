@@ -18,6 +18,12 @@
 #include "light.h"
 #include "player.h"
 #include "Enemy.h"
+#include "fog.h"
+
+//*****************************
+// マクロ定義
+//*****************************
+#define GOAL_DIST	(100000.0f)	//ゴールまでの距離
 
 //*****************************
 // プロトタイプ宣言
@@ -38,6 +44,7 @@ void InitGame(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	//ライトの初期化処理
 	InitLight();
 
 	//カメラの初期化処理
@@ -63,6 +70,12 @@ void InitGame(void)
 	InitPlayer();
 
 	InitEnemy();
+	//フォグの初期化
+	InitFog();
+
+	//フォグの設定
+	SetFog(D3DFOG_LINEAR, D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.7f), 100.0f, 1000.0f, 0.1f);
+
 	//通常状態へ
 	g_gameState = GAMESTATE_NORMAL;
 
@@ -102,6 +115,9 @@ void UninitGame(void)
 	//ポーズの終了処理
 	UninitPause();
 
+	//フォグの終了処理
+	UninitFog();
+
 	//メッシュフィールドの終了処理
 	UninitMeshField();
 	UninitField();
@@ -115,6 +131,7 @@ void UpdateGame(void)
 	//情報の取得
 	Pause *pPause = GetPause();			//ポーズ
 	Fade pFade = GetFade();				//フェード
+	Player *pPlayer = GetPlayer();
 
 	if (pFade == FADE_NONE)
 	{//フェード状態じゃない場合
@@ -159,11 +176,19 @@ void UpdateGame(void)
 
 	UpdateCamera();
 
+	UpdateFog();
+
 	//if (g_gameState == GAMESTATE_END)
 	//{//条件がそろう時に行える
 		switch (g_gameState)
 		{
 		case GAMESTATE_NORMAL:			//通常状態
+
+			if (pPlayer->pos.z > GOAL_DIST)
+			{//ゴール判定
+				g_gameState = GAMESTATE_END;
+			}
+
 			break;
 
 		case GAMESTATE_END:				//終了状態
@@ -214,6 +239,9 @@ void DrawGame(void)
 
 	//タイムの描画
 	DrawTime();
+
+	//フォグの描画
+	DrawFog();
 	
 	if (pPause->bPause == true)
 	{//ポーズ中だった場合
