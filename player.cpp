@@ -36,7 +36,7 @@ void InitPlayer(void)
 	ZeroMemory(&g_player,sizeof(Player));
 
 	//ファイルからモデルを読み込む
-	FILE *pFile = fopen("data\\MOTION\\player.txt", "r");
+	FILE *pFile = fopen("data\\MOTION\\baiku.txt", "r");
 
 	if (pFile != NULL)
 	{//ファイルが開けた場合
@@ -74,7 +74,6 @@ void LoadMotion(FILE *pFile)
 					while (strcmp(cTemp, "END_PARTSSET") != 0)
 					{//終わりまでパーツ設定
 						fscanf(pFile, "%s", &cTemp[0]);
-
 						if (strcmp(cTemp, "INDEX") == 0)
 						{//番号読み込み
 							fscanf(pFile, "%s", &cTemp[0]);
@@ -110,9 +109,10 @@ void LoadMotion(FILE *pFile)
 						}
 
 					}//END_PART
-
 					nCntPart++;
 				}
+
+				
 			}//END_CHAR
 		}
 		//===========================================================
@@ -212,9 +212,6 @@ void ControlPlayerKeyboard(void)
 		{//プラス方向に進んでいる場合
 			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
 		}
-
-		//カメラの傾き設定
-		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 	}
 	if (GetKeyboardPress(nRight))
 	{//右移動
@@ -230,9 +227,6 @@ void ControlPlayerKeyboard(void)
 		{//プラス方向に進んでいる場合
 			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
 		}
-
-		//カメラの傾き設定
-		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 	}
 	//移動==================================
 
