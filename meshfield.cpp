@@ -10,8 +10,8 @@
 //マクロ定義
 //**********************************
 #define MAX_TEX			(1)
-#define FILED_WIDTH		(100.0f)			//横幅
-#define FIELD_HEIGHT	(100.0f)			//縦幅
+#define FILED_WIDTH		(200.0f)			//横幅
+#define FIELD_HEIGHT	(500.0f)			//縦幅
 
 #define SPLIT_X			(2)					//分割数(x)
 #define SPLIT_Y			(2)					//分割数(z)
@@ -21,7 +21,7 @@
 //***********************************
 const char *c_apTexMeshFeald[] =
 {
-	"data\\TEXTURE\\RESULT\\result.png"
+	"data\\TEXTURE\\GAME\\do-ro.png"
 };
 
 //***********************************
@@ -149,7 +149,8 @@ void InitMeshField(void)
 	//インデックスバッファをアンロックする
 	g_pIdxBuffMeshfield->Unlock();
 
-	SetMeshField(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 0);
+	SetMeshField(D3DXVECTOR3(0.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 0);
+	SetMeshField(D3DXVECTOR3(100.0f, 0.0f, 600.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 0);
 }
 
 //====================================================================
