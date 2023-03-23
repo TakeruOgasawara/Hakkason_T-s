@@ -27,6 +27,7 @@ void CameraMove(int nCnt);			//カメラの移動
 void CameraRot(int nCnt);
 void CameraV(int nCnt);				//視点操作の処理
 void CameraR(int nCnt);				//注視点操作の処理
+void CameraRoll(int nCnt);			//カメラのロール処理
 
 //*****************************
 // グローバル宣言
@@ -45,6 +46,7 @@ void InitCamera(void)
 		g_aCamera[nCntCamera].posR	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		g_aCamera[nCntCamera].vecU	= D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		g_aCamera[nCntCamera].rot	= D3DXVECTOR3(0.0f, 3.14f, 0.0f);
+		g_aCamera[nCntCamera].fRoll = 0.0f;
 		g_aCamera[nCntCamera].fLengthCamera	= CAMERA_DISTANCE;						//注視点から視点間の距離
 		g_aCamera[nCntCamera].bUse	= false;
 	}
@@ -92,6 +94,9 @@ void CameraOps(void)
 
 		//カメラの向き修正
 		CameraRot(nCnt);
+
+		//カメラのロール
+		CameraRoll(nCnt);
 	}
 }
 
@@ -276,6 +281,29 @@ void CameraR(int nCnt)
 	g_aCamera[nCnt].posR.y = g_aCamera[nCnt].posV.y + sinf(g_aCamera[nCnt].rot.z) * g_aCamera[nCnt].fLengthCamera;			//視点Y
 	g_aCamera[nCnt].posR.z = g_aCamera[nCnt].posV.z + (cosf(g_aCamera[nCnt].rot.z) * cosf(g_aCamera[nCnt].rot.y)) * g_aCamera[nCnt].fLengthCamera;
 }
+//====================================================================
+//カメラのロール処理
+//====================================================================
+void CameraRoll(int nCnt)
+{
+	if (GetKeyboardPress(DIK_RIGHT) == true)
+	{
+		g_aCamera[nCnt].fRoll += 0.1f;
+	}
+	else if (GetKeyboardPress(DIK_LEFT) == true)
+	{
+		g_aCamera[nCnt].fRoll -= 0.1f;
+	}
+
+	if (g_aCamera[nCnt].fRoll > D3DX_PI)
+	{
+		g_aCamera[nCnt].fRoll = -D3DX_PI;
+	}
+	if (g_aCamera[nCnt].fRoll < -D3DX_PI)
+	{
+		g_aCamera[nCnt].fRoll = D3DX_PI;
+	}
+}
 
 //====================================================================
 //カメラの設定処理処理
@@ -307,8 +335,12 @@ void SetCamera(int nIdx)
 		&g_aCamera[nIdx].posR,						//注視点
 		&g_aCamera[nIdx].vecU);						//情報ベクトル
 
+	//カメラのロール用
+	D3DXMATRIX rotationZMatrix;
+	D3DXMatrixRotationZ(&rotationZMatrix, g_aCamera[nIdx].fRoll); // Z軸回転行列の計算
+	D3DXMATRIX viewMatrixWithRotation = rotationZMatrix * g_aCamera[nIdx].mtxView; // Z軸回転を加えたビュー行列
 	//ビューマトリックスの設定
-	pDevice->SetTransform(D3DTS_VIEW, &g_aCamera[nIdx].mtxView);
+	pDevice->SetTransform(D3DTS_VIEW, &viewMatrixWithRotation);
 
 	//使っている状態へ
 	g_aCamera[nIdx].bUse = true;
@@ -318,6 +350,7 @@ void SetCamera(int nIdx)
 	PrintDebugProc("視点     [%f  %f  %f]\n", g_aCamera[nIdx].posV.x, g_aCamera[nIdx].posV.y, g_aCamera[nIdx].posV.z);
 	PrintDebugProc("注視点   [%f  %f  %f]\n", g_aCamera[nIdx].posR.x, g_aCamera[nIdx].posR.y, g_aCamera[nIdx].posR.z);
 	PrintDebugProc("向き     [%f  %f  %f]\n", g_aCamera[nIdx].rot.x, g_aCamera[nIdx].rot.y, g_aCamera[nIdx].rot.z);
+	PrintDebugProc("ロール   [%f]\n", g_aCamera[nIdx].fRoll);
 #endif
 }
 
