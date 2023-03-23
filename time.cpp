@@ -23,9 +23,6 @@
 #define CLOCK_WIDTH				(5)										//幅
 #define CLOCK_HEIGHT			(70)										//高さ
 
-#define INITIAL_MINITE			(3)											//初期の時間（分）
-#define INITIAL_SECOND			(0)											//初期の時間（秒）
-
 #define TIME_TEX_FILE			"data\\TEXTURE\\UI\\Number000.png"			//テクスチャ名
 #define BACK_TEX_FILE			"data\\TEXTURE\\UI\\time_back.png"			//テクスチャ名
 #define CLOCK_TEX_FILE			"data\\TEXTURE\\UI\\clock.png"				//テクスチャ名

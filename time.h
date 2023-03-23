@@ -10,6 +10,12 @@
 
 #include"main.h"
 
+//****************************
+//マクロ定義
+//****************************
+#define INITIAL_MINITE			(3)											//初期の時間（分）
+#define INITIAL_SECOND			(0)											//初期の時間（秒）
+
 //プロトタイプ宣言
 void InitTime(void);
 void UninitTime(void);

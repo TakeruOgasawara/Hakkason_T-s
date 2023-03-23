@@ -29,7 +29,8 @@ typedef enum
 typedef enum
 {//取得スコアの種類
 	POINTTYPE_SLIDE = 0,	//スライドインしてくるスコア表示
-	POINTTYPE_STAY,	//表示し続けるスコア表示
+	POINTTYPE_MINITE,	//表示し続けるスコア表示
+	POINTTYPE_SECOND,	//表示し続けるスコア表示
 	POINTTYPE_MAX
 }POINTTYPE;
 

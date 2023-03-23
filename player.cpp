@@ -264,8 +264,6 @@ void ControlPlayerKeyboard(void)
 			g_player.move.z = g_player.move.z * FORWARD_FACT;
 		}
 	}
-
-
 	//ˆÚ“®==================================
 
 	//Œü‚«‚ð–ß‚·============================

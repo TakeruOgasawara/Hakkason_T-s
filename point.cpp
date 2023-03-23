@@ -11,7 +11,7 @@
 //==========================================
 //  マクロ定義
 //==========================================
-#define MAX_NUM_PLACE (6) //スコアの桁数
+#define MAX_NUM_PLACE (2) //スコアの桁数
 #define POINT_WIDTH (40.0f) //スコアの横幅
 #define POINT_HEIGHT (60.0f) //スコアの高さ
 #define WAIT_RANGE	(0.1f)	//移動完了とみなす差分との直線距離
@@ -52,7 +52,7 @@ void InitPoint()
 	D3DXCreateTextureFromFile
 	(
 		pDevice,
-		"data/TEXTURE/number001.png",
+		"data/TEXTURE/UI/Number000.png",
 		&g_pTexturePoint
 	);
 
@@ -131,7 +131,8 @@ void UpdatePoint()
 			case POINTTYPE_SLIDE:
 				UpdatePointSlide(pPoint);
 				break;
-			case POINTTYPE_STAY:
+			case POINTTYPE_SECOND:
+			case POINTTYPE_MINITE:
 				UpdatePointStay(pPoint);
 				break;
 			default:
@@ -279,7 +280,7 @@ void DrawPoint()
 	{
 		if (pPoint->bUse)
 		{//使用している状態なら
-			for (int nCnt = MAX_NUM_PLACE - pPoint->nNumPlace; nCnt < MAX_NUM_PLACE; nCnt++)
+			for (int nCnt = 0; nCnt < MAX_NUM_PLACE; nCnt++)
 			{//桁数分描画
 				//テクスチャの設定
 				pDevice->SetTexture(0, g_pTexturePoint);
@@ -334,8 +335,11 @@ void SetPointScore(int nPoint, D3DXVECTOR3 pos, D3DXVECTOR3 posDest, POINTTYPE t
 				pPoint->col.a = 0.0f;
 			}
 			
-			//メッセージを表示
-			SetPointLog(pPoint, logType,fScale);
+			if (pPoint->type == POINTTYPE_MINITE)
+			{//分だったら
+				//メッセージを表示
+				SetPointLog(pPoint, logType, fScale);
+			}
 
 			//テクスチャ座標の計測
 			for (int nCntPoint = MAX_NUM_PLACE - 1; nCntPoint >= 0; nCntPoint--)
