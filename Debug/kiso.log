@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-﻿  game.cpp
-=======
-<<<<<<< HEAD
-﻿  title.cpp
-cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
-  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.exe
-  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
-=======
-﻿  player.cpp
->>>>>>> 2035c77290fcaab116b3ce8b8bd1e0aa75be3e31
+﻿  result.cpp
   kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.exe
   kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
->>>>>>> 9bd4f9ba9a5273b96b5edc9b155c26f20e4866e3
