@@ -29,6 +29,8 @@
 #define SPEED_FORWARD	(0.055f)	//前進する加速量
 #define BREAKE_FACT	(0.98f)	//ブレーキの減衰係数
 
+#define CURV_SPEED	(15.0f)	//曲がれるまでのスピード
+
 //***************************
 //グローバル宣言
 //***************************
@@ -237,8 +239,17 @@ void ControlPlayerKeyboard(void)
 	//移動==================================
 	if (GetKeyboardPress(nLeft))
 	{//左移動
-		//移動量加算
-		g_player.move.x -= MOVE_SPEED;
+
+		if (g_player.move.z < CURV_SPEED)
+		{
+			//移動量加算
+			g_player.move.x -= g_player.move.z / CURV_SPEED * MOVE_SPEED;
+		}
+		else
+		{
+			//移動量加算
+			g_player.move.x -= MOVE_SPEED;
+		}
 
 		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 
@@ -246,8 +257,16 @@ void ControlPlayerKeyboard(void)
 	}
 	else if (GetKeyboardPress(nRight))
 	{//右移動
-		//移動量加算
-		g_player.move.x += MOVE_SPEED;
+		if (g_player.move.z < CURV_SPEED)
+		{
+			//移動量加算
+			g_player.move.x += g_player.move.z / CURV_SPEED * MOVE_SPEED;
+		}
+		else
+		{
+			//移動量加算
+			g_player.move.x += MOVE_SPEED;
+		}
 
 		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 
@@ -298,7 +317,16 @@ void ControlPlayerKeyboard(void)
 void ControlPlayerPad(void)
 {
 	//横移動========================
-	g_player.move.x += GetJoyStickLX(0) * MOVE_SPEED;
+	if (g_player.move.z < CURV_SPEED)
+	{
+		//移動量加算
+		g_player.move.x += g_player.move.z / CURV_SPEED * MOVE_SPEED * GetJoyStickLX(0);
+	}
+	else
+	{
+		//移動量加算
+		g_player.move.x += GetJoyStickLX(0) * MOVE_SPEED;
+	}
 	//横移動========================
 
 	if (GetJoyPadPress(BUTTON_RB,0))
