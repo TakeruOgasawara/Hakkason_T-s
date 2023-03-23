@@ -50,11 +50,20 @@ typedef struct
 //*********************
 // プロトタイプ宣言
 //*********************
+//基本処理
 void InitPlayer(void);
 void UninitPlayer(void);
 void UpdatePlayer(void);
 void DrawPlayer(void);
+
+//情報取得
 Player *GetPlayer(void);
+
+//読み込み処理
 void LoadMotion(FILE *pFile);
+
+//操作処理
+void ControlPlayerKeyboard(void);
+void ControlPlayerPad(void);
 
 #endif // !_PLAYER_H_
