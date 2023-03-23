@@ -15,8 +15,10 @@
 // マクロ定義
 //***************************
 #define MAX_STRING	(256)	//文字数の最大
-#define MOVE_SPEED	(0.5f)	//移動速度
-#define MOVE_FACT	(0.9f)	//移動庁の減衰係数
+#define MOVE_SPEED	(0.2f)	//移動速度
+#define MOVE_FACT	(0.9f)	//移動量の減衰係数
+#define ROTATE_FACT	(0.05f)	//向きの補正係数
+#define ROT_CURV	(D3DX_PI * 0.8f)	//傾けた時の曲がり方
 
 //***************************
 //グローバル宣言
@@ -141,6 +143,37 @@ void UpdatePlayer(void)
 	//位置に移動量を加算
 	g_player.pos += g_player.move;
 	g_player.move = g_player.move * MOVE_FACT;
+
+	//向きを補正する
+	//Y軸追従================================================================================================
+	//差分角度を取得
+	float fRotDiffZ = g_player.rotDest.z - g_player.rot.z;
+
+	//角度の修正
+	if (fRotDiffZ < 0)
+	{
+		fRotDiffZ += 6.28f;
+	}
+	else if (fRotDiffZ > 0)
+	{
+		fRotDiffZ -= 6.28f;
+	}
+
+	//角度補正
+	g_player.rot.z += fRotDiffZ * ROTATE_FACT;
+
+	//角度の修正
+	if (fRotDiffZ < 0)
+	{
+		fRotDiffZ += 6.28f;
+	}
+	else if (fRotDiffZ > 0)
+	{
+		fRotDiffZ -= 6.28f;
+	}
+
+	//角度補正
+	g_player.rot.z += fRotDiffZ * ROTATE_FACT;
 }
 
 //===========================
@@ -148,14 +181,40 @@ void UpdatePlayer(void)
 //===========================
 void ControlPlayerKeyboard(void)
 {
-	if (GetKeyboardPress(DIK_J))
+	//変数宣言
+	int nLeft = DIK_J;
+	int nRight = DIK_L;
+
+	if (GetKeyboardPress(nLeft))
 	{//左移動
+		//移動量加算
 		g_player.move.x -= MOVE_SPEED;
+
+		//目標の向き設定
+		g_player.rotDest.z = -ROT_CURV;
 	}
-	if (GetKeyboardPress(DIK_L))
+	if (GetKeyboardPress(nRight))
 	{//右移動
+		//移動量加算
 		g_player.move.x += MOVE_SPEED;
+
+		//目標の向き設定
+		g_player.rotDest.z = ROT_CURV;
 	}
+
+	//向きを戻す============================
+	if (GetKeyboardRelease(nLeft) && GetKeyboardRelease(nRight) == false)
+	{//左離した瞬間に右を押してない場合
+		//目標の向き設定
+		g_player.rotDest.z = D3DX_PI;
+	}
+
+	if (GetKeyboardRelease(nRight) && GetKeyboardRelease(nLeft) == false)
+	{//左離した瞬間に右を押してない場合
+	 //目標の向き設定
+		g_player.rotDest.z = D3DX_PI;
+	}
+	//向きを戻す============================
 }
 
 //===========================
