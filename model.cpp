@@ -16,7 +16,7 @@
 // マクロ定義
 //*****************************************
 #define MAX_STRING	(256)	//文字数の最大
-#define NUM_ENEMY (1) //敵の種類
+
 
 //*****************************************
 // グローバル変数宣言
@@ -115,7 +115,8 @@ void LoadEnemyModel(void)
 {
 	const char *c_apModelEnemy[] =					//モデルデータ読み込み
 	{
-		"data\\MODEL\\kiso.x",
+		"data\\MODEL\\ENEMY\\car_bigg.x",
+		"data\\MODEL\\ENEMY\\car_mini.x",
 	};
 	for (int nCntEnemy = 0; nCntEnemy < NUM_ENEMY; nCntEnemy++)
 	{
