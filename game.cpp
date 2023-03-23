@@ -184,7 +184,7 @@ void UpdateGame(void)
 
 	UpdateFog();
 
-	if (g_gameState == GAMESTATE_END)
+	//if (g_gameState == GAMESTATE_END)
 	{//ğŒ‚ª‚»‚ë‚¤‚És‚¦‚é
 		switch (g_gameState)
 		{
