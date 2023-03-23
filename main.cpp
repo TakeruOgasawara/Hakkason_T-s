@@ -17,6 +17,7 @@
 #include "light.h"
 #include "camera.h"
 #include "model.h"
+#include "time.h"
 
 //*****************************
 //É}ÉNÉçíËã`
