@@ -1,6 +1,10 @@
 ﻿  game.cpp
   コード生成しています。
+<<<<<<< HEAD
   12 of 247 functions ( 4.9%) were compiled, the rest were copied from previous compilation.
+=======
+  2 of 238 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
+>>>>>>> 038d96813e3b9548439c6ebf6f33fa086765a14c
     0 functions were new in current compilation
     3 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。

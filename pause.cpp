@@ -16,10 +16,10 @@
 //テクスチャファイル名
 const char *c_apFilenamePause[NUM_PAUSE_TEX] =
 {
-	"data\\TEXTURE\\no.png",
-	"data\\TEXTURE\\Pause_000.png",
-	"data\\TEXTURE\\Pause_100.png",
-	"data\\TEXTURE\\Pause_200.png"
+	"data\\TEXTURE\\PAUSE\\no.png",
+	"data\\TEXTURE\\PAUSE\\Pause_000.png",
+	"data\\TEXTURE\\PAUSE\\Pause_Retry.png",
+	"data\\TEXTURE\\PAUSE\\Pause_200.png"
 };
 
 //プロトタイプ宣言

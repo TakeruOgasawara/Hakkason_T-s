@@ -146,18 +146,6 @@ void UpdateGame(void)
 	if (pFade == FADE_NONE)
 	{//フェード状態じゃない場合
 
-		//プレイヤーの更新
-		UpdatePlayer();
-
-		//タイムの更新
-		UpdateTime();
-
-		UpdateEnemy();
-
-		UpdateEffect();
-
-		UpdateParticle();
-
 		UpdateDome();
 
 		if (GetKeyboardTrigger(DIK_P) == true || GetJoyPadTrigger(BUTTON_START, 0) == true)
@@ -177,21 +165,31 @@ void UpdateGame(void)
 			//ポーズの更新処理
 			UpdatePause();
 		}
-
-		//ゲームを回すため(後で消す)
-		if (GetKeyboardTrigger(DIK_RETURN) == true || GetJoyPadTrigger(BUTTON_A, 0) == true)
-		{//決定キー(ENTERキー)が押された
-			//モードの設定(ゲーム画面に移行)
-			SetFade(MODE_RESULT);
-		}
 	}
 
-	UpdateCamera();
+	if (pPause->bPause == false)
+	{
+		//プレイヤーの更新
+		UpdatePlayer();
 
-	UpdateFog();
+		//タイムの更新
+		UpdateTime();
+
+		UpdateEnemy();
+
+		UpdateEffect();
+
+		UpdateParticle();
+
+		UpdateCamera();
+
+		UpdateFog();
+	}
+
+	
 
 	//if (g_gameState == GAMESTATE_END)
-	{//条件がそろう時に行える
+	//{//条件がそろう時に行える
 		switch (g_gameState)
 		{
 		case GAMESTATE_NORMAL:			//通常状態
@@ -220,7 +218,7 @@ void UpdateGame(void)
 			}
 			break;
 		}
-	}
+	//}
 }
 
 //========================================================================
@@ -236,7 +234,7 @@ void DrawGame(void)
 
 	DrawDome();
 	//メッシュフィールドの描画処理
-	//DrawMeshField();
+	DrawMeshField();
 	DrawField();
 
 	//エフェクトの描画処理
