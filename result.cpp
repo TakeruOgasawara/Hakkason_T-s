@@ -94,12 +94,12 @@ void InitResult(void)
 	{//ファイルが開けなかった場合
 	}
 
-	//nHighScore = 180;
+	nHighScore = 0;
 	//ソート処理=========================
 
-	if (nHighScore < GetTime())
+	//if (nHighScore < GetTime())
 	{//更新した場合
-		nHighScore = GetTime();
+		//nHighScore = GetTime();
 
 		//ファイルを開く
 		pFile = fopen("data/SAVE/ranking.bin", "wb");

@@ -268,10 +268,10 @@ void FactingRot(float *pfRot, float fRotDest)
 void ControlPlayerKeyboard(void)
 {
 	//•Ï”éŒ¾
-	int nLeft = DIK_J;
-	int nRight = DIK_L;
-	int nForward = DIK_I;
-	int nBreake = DIK_K;
+	int nLeft = DIK_A;
+	int nRight = DIK_D;
+	int nForward = DIK_W;
+	int nBreake = DIK_S;
 
 	
 
