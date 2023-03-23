@@ -361,12 +361,15 @@ void SetCamera(int nIdx)
 		&g_aCamera[nIdx].vecU);						//情報ベクトル
 
 	//カメラのロール用
-	D3DXMATRIX rotationZMatrix;
-	D3DXMatrixRotationZ(&rotationZMatrix, g_aCamera[nIdx].fRoll); // Z軸回転行列の計算
-	D3DXMATRIX viewMatrixWithRotation = rotationZMatrix * g_aCamera[nIdx].mtxView; // Z軸回転を加えたビュー行列
+	// Z軸を中心に回転する行列を計算
+	D3DXVECTOR3 rotationAxis(0.0f, 0.0f, 1.0f);
+	D3DXMATRIX rotationMatrix;
+	D3DXMatrixRotationAxis(&rotationMatrix, &rotationAxis, g_aCamera[nIdx].fRoll);
 
+	// ビュー行列に回転行列を乗算する
+	g_aCamera[nIdx].mtxView *= rotationMatrix;
 	//ビューマトリックスの設定
-	pDevice->SetTransform(D3DTS_VIEW, &viewMatrixWithRotation);
+	pDevice->SetTransform(D3DTS_VIEW, &g_aCamera[nIdx].mtxView);
 
 	//使っている状態へ
 	g_aCamera[nIdx].bUse = true;
