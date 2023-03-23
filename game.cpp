@@ -42,6 +42,7 @@ void InitGame(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	//ライトの初期化処理
 	InitLight();
 
 	//カメラの初期化処理

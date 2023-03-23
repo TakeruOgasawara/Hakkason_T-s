@@ -32,7 +32,7 @@
 //*****************************
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPalam);
 HRESULT Init(HINSTANCE hInstance, HWND hwnd, BOOL bWindow);							//初期化処理
-void Uninit(void);				
+void Uninit(void);
 void Update(void);
 void Draw(void);
 void DrawFPS(void);				//FPSの表示処理
@@ -45,7 +45,7 @@ LPDIRECT3DDEVICE9 g_pD3DDevice = NULL;			//Directx3Dへのデバイスへのポインタ
 int g_nCountFPS = 0;							//FPSカウンタ
 bool g_DispDebug = true;						//デバッグ表示のON/OFF
 bool g_bWireframe = false;						//ワイヤーフレームのON/OFF
-MODE g_mode = MODE_GAME;						//現在のモード
+MODE g_mode = MODE_TITLE;						//現在のモード
 
 //===========================================================================================
 //メイン関数
