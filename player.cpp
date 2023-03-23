@@ -19,6 +19,7 @@
 #define MOVE_FACT	(0.9f)	//移動量の減衰係数
 #define ROTATE_FACT	(0.05f)	//向きの補正係数
 #define ROT_CURV	(D3DX_PI * 0.8f)	//傾けた時の曲がり方
+#define MAX_MOVE	(1.75f)	//移動量の最大
 
 //***************************
 //グローバル宣言
@@ -144,36 +145,43 @@ void UpdatePlayer(void)
 	g_player.pos += g_player.move;
 	g_player.move = g_player.move * MOVE_FACT;
 
-	//向きを補正する
-	//Y軸追従================================================================================================
+	//向き補正処理
+	FactingRot(&g_player.rot.z,g_player.rotDest.z);
+}
+
+//===========================
+// 向き補正処理
+//===========================
+void FactingRot(float *pfRot, float fRotDest)
+{
 	//差分角度を取得
-	float fRotDiffZ = g_player.rotDest.z - g_player.rot.z;
+	float fRotDiff = fRotDest - *pfRot;
 
 	//角度の修正
-	if (fRotDiffZ < 0)
+	if (fRotDiff < 0)
 	{
-		fRotDiffZ += 6.28f;
+		fRotDiff += 6.28f;
 	}
-	else if (fRotDiffZ > 0)
+	else if (fRotDiff > 0)
 	{
-		fRotDiffZ -= 6.28f;
+		fRotDiff -= 6.28f;
 	}
 
 	//角度補正
-	g_player.rot.z += fRotDiffZ * ROTATE_FACT;
+	*pfRot += fRotDiff * ROTATE_FACT;
 
 	//角度の修正
-	if (fRotDiffZ < 0)
+	if (fRotDiff < 0)
 	{
-		fRotDiffZ += 6.28f;
+		fRotDiff += 6.28f;
 	}
-	else if (fRotDiffZ > 0)
+	else if (fRotDiff > 0)
 	{
-		fRotDiffZ -= 6.28f;
+		fRotDiff -= 6.28f;
 	}
 
 	//角度補正
-	g_player.rot.z += fRotDiffZ * ROTATE_FACT;
+	*pfRot += fRotDiff * ROTATE_FACT;
 }
 
 //===========================
@@ -185,22 +193,38 @@ void ControlPlayerKeyboard(void)
 	int nLeft = DIK_J;
 	int nRight = DIK_L;
 
+	//移動==================================
 	if (GetKeyboardPress(nLeft))
 	{//左移動
 		//移動量加算
 		g_player.move.x -= MOVE_SPEED;
 
-		//目標の向き設定
-		g_player.rotDest.z = -ROT_CURV;
+		//プレイヤーの傾き設定
+		if (g_player.move.x < 0.0f)
+		{//マイナス方向に進んでいる場合
+			g_player.rotDest.z = -D3DX_PI + -(g_player.move.x / MAX_MOVE) * (-ROT_CURV - -D3DX_PI);
+		}
+		else
+		{//プラス方向に進んでいる場合
+			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
+		}
 	}
 	if (GetKeyboardPress(nRight))
 	{//右移動
 		//移動量加算
 		g_player.move.x += MOVE_SPEED;
 
-		//目標の向き設定
-		g_player.rotDest.z = ROT_CURV;
+		//プレイヤーの傾き設定
+		if (g_player.move.x < 0.0f)
+		{//マイナス方向に進んでいる場合
+			g_player.rotDest.z = -D3DX_PI + -(g_player.move.x / MAX_MOVE) * (-ROT_CURV - -D3DX_PI);
+		}
+		else
+		{//プラス方向に進んでいる場合
+			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
+		}
 	}
+	//移動==================================
 
 	//向きを戻す============================
 	if (GetKeyboardRelease(nLeft) && GetKeyboardRelease(nRight) == false)
@@ -211,7 +235,7 @@ void ControlPlayerKeyboard(void)
 
 	if (GetKeyboardRelease(nRight) && GetKeyboardRelease(nLeft) == false)
 	{//左離した瞬間に右を押してない場合
-	 //目標の向き設定
+		//目標の向き設定
 		g_player.rotDest.z = D3DX_PI;
 	}
 	//向きを戻す============================
@@ -317,6 +341,7 @@ void DrawPlayer(void)
 
 #ifdef _DEBUG		//デバッグ時のみ
 	PrintDebugProc("【プレイヤーの位置：%f,%f,%f】\n", g_player.pos.x, g_player.pos.y, g_player.pos.z);
+	PrintDebugProc("【プレイヤーの移動量：%f,%f,%f】\n", g_player.move.x, g_player.move.y, g_player.move.z);
 #endif
 }
 
