@@ -64,9 +64,9 @@ bool GetJoyPadPress(JOYKEY nKey, int nPlayer);
 bool GetJoyPadTrigger(JOYKEY nKey, int nPlayer);
 bool GetJoyPadRepeat(JOYKEY nKey, int nPlayer);
 bool GetGamePadRelease(JOYKEY nKey, int nPlayer);
-SHORT GetJoyStickLX(int nPlayer);
-SHORT GetJoyStickLY(int nPlayer);
-SHORT GetJoyStickRX(int nPlayer);
-SHORT GetJoyStickRY(int nPlayer);
+float GetJoyStickLX(int nPlayer);
+float GetJoyStickLY(int nPlayer);
+float GetJoyStickRX(int nPlayer);
+float GetJoyStickRY(int nPlayer);
 
 #endif
