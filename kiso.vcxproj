@@ -167,6 +167,8 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="pause.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="point.cpp" />
+    <ClCompile Include="point_log.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="time.cpp" />
@@ -190,6 +192,8 @@
     <ClInclude Include="particle.h" />
     <ClInclude Include="pause.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="point.h" />
+    <ClInclude Include="point_log.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="time.h" />

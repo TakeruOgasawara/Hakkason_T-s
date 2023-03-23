@@ -475,6 +475,10 @@ void SetTime(int nTime)
 	//初期スコアを入手
 	g_nTime = nTime;
 
+	g_nMinute = nTime / 60;
+
+	g_nLastTime = nTime % 60;
+
 	//頂点情報のポインタ
 	VERTEX_2D *pVtx;
 
@@ -483,7 +487,7 @@ void SetTime(int nTime)
 
 	for (nCount = 0; nCount < NUM_PLACE / 2; nCount++)
 	{//スコア表示
-	 //各桁割り出し
+		//各桁割り出し
 		aData1 = pow(10.0, NUM_PLACE / 2 - nCount);
 		aData2 = pow(10.0, NUM_PLACE / 2 - nCount - 1);
 
