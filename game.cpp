@@ -15,6 +15,7 @@
 #include "meshfield.h"
 #include "camera.h"
 #include "light.h"
+#include "player.h"
 
 //*****************************
 // プロトタイプ宣言
@@ -52,6 +53,9 @@ void InitGame(void)
 	//メッシュフィールドの初期化処理
 	InitMeshField();
 
+	//プレイヤーの初期化
+	InitPlayer();
+
 	//通常状態へ
 	g_gameState = GAMESTATE_NORMAL;
 
@@ -74,6 +78,9 @@ void UninitGame(void)
 {
 	//サウンドの停止
 	//StopSound();
+
+	//プレイヤー終了処理
+	UninitPlayer();
 
 	//エフェクトの終了処理
 	UninitEffect();
@@ -99,6 +106,9 @@ void UpdateGame(void)
 
 	if (pFade == FADE_NONE)
 	{//フェード状態じゃない場合
+
+		//プレイヤーの更新
+		UpdatePlayer();
 
 		if (GetKeyboardTrigger(DIK_P) == true || GetJoyPadTrigger(BUTTON_START, 0) == true)
 		{//キーが押された場合
@@ -174,6 +184,9 @@ void DrawGame(void)
 
 	//パーティクルの描画処理
 	DrawParticle();
+
+	//プレイヤーの描画
+	DrawPlayer();
 	
 	if (pPause->bPause == true)
 	{//ポーズ中だった場合
