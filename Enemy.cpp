@@ -3,7 +3,7 @@
 #include "player.h"
 
 //マクロ定義
-#define MAX_ENEMY (256)
+#define MAX_ENEMY (2560)
 
 //グローバル変数
 ENEMY g_aEnemy[MAX_ENEMY];
@@ -24,12 +24,12 @@ void UpdateEnemy(void)
 {
 	Player*pPlayer = GetPlayer();
 	g_nEnemyCountTime ++;
-	g_nEnemyCountTime += (int)pPlayer->move.z / 50;
+	g_nEnemyCountTime += (int)pPlayer->move.z / 30;
 	if (g_nEnemyCountTime  >= 60)
 	{
 		g_nEnemyCountTime = 0;
 			int nRand = rand() % 4;
-			float fDis = (float)(rand() % 7000) + 5000.0f;
+			float fDis = pPlayer->pos.z + (float)(rand() % 7000) + 5000.0f;
 			switch (nRand)
 			{
 			case 0:
@@ -136,6 +136,26 @@ void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot,D3DXVECTOR3 move)
 			break;
 		}
 	}
+}
+bool CollisionEnemy(D3DXVECTOR3 *pPos, D3DXVECTOR3 *pPosOld)
+{
+	for (int nCnt = 0; nCnt < MAX_ENEMY; nCnt++)
+	{
+		if (g_aEnemy[nCnt].bUse == true)
+		{
+			Model *pEnemyModel = GetEnemyModel(g_aEnemy[nCnt].nType);
+			D3DXVECTOR3 HitRectMin, HitRectMax;
+			HitRectMin = g_aEnemy[nCnt].pos + pEnemyModel->vtxMin;
+			HitRectMax = g_aEnemy[nCnt].pos + pEnemyModel->vtxMax;
+			
+			if (HitRectMin.x < pPos->x &&HitRectMin.z < pPos->z && HitRectMax.x > pPos->x&& HitRectMax.z > pPos->z)
+			{
+				return true;
+			}
+			
+		}
+	}
+	return false;
 }
 bool CollisionOuterProductEnemy(D3DXVECTOR3 *pPos, D3DXVECTOR3 *pPosOld, D3DXVECTOR3 *pMove)
 {
