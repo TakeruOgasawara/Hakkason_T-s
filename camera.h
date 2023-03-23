@@ -44,7 +44,9 @@ void UpdateCamera(void);
 
 void SetCamera(int nIdx);
 
-Camera GetCamera(void);
+void FollowPlayer(void);
+
+Camera *GetCamera(void);
 
 
 #endif

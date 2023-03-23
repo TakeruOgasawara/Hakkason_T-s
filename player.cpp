@@ -9,11 +9,18 @@
 #include "input.h"
 #include "model.h"
 #include <stdio.h>
+#include "debugproc.h"
+#include "camera.h"
 
 //***************************
 // マクロ定義
 //***************************
 #define MAX_STRING	(256)	//文字数の最大
+#define MOVE_SPEED	(0.2f)	//移動速度
+#define MOVE_FACT	(0.9f)	//移動量の減衰係数
+#define ROTATE_FACT	(0.05f)	//向きの補正係数
+#define ROT_CURV	(D3DX_PI * 0.8f)	//傾けた時の曲がり方
+#define MAX_MOVE	(1.75f)	//移動量の最大
 
 //***************************
 //グローバル宣言
@@ -21,12 +28,20 @@
 Player g_player;
 
 //===========================
-//プレイヤーの初期化処理
+// 初期化処理
 //===========================
 void InitPlayer(void)
 {
 	//各種変数の初期化
 	ZeroMemory(&g_player,sizeof(Player));
+
+	//ファイルからモデルを読み込む
+	FILE *pFile = fopen("data\\MOTION\\player.txt", "r");
+
+	if (pFile != NULL)
+	{//ファイルが開けた場合
+		LoadMotion(pFile);
+	}
 }
 
 //===========================
@@ -110,21 +125,142 @@ void LoadMotion(FILE *pFile)
 }
 
 //===========================
-//プレイヤーの終了処理
+// 終了処理
 //===========================
 void UninitPlayer(void)
 {
 }
 
 //===========================
-//プレイヤーの更新処理
+// 更新処理
 //===========================
 void UpdatePlayer(void)
 {
+	//キーボード操作
+	ControlPlayerKeyboard();
+
+	//パッド操作
+	ControlPlayerPad();
+
+	//位置に移動量を加算
+	g_player.pos += g_player.move;
+	g_player.move = g_player.move * MOVE_FACT;
+
+	//向き補正処理
+	FactingRot(&g_player.rot.z,g_player.rotDest.z);
 }
 
 //===========================
-//プレイヤーの描画処理
+// 向き補正処理
+//===========================
+void FactingRot(float *pfRot, float fRotDest)
+{
+	//差分角度を取得
+	float fRotDiff = fRotDest - *pfRot;
+
+	//角度の修正
+	if (fRotDiff < 0)
+	{
+		fRotDiff += 6.28f;
+	}
+	else if (fRotDiff > 0)
+	{
+		fRotDiff -= 6.28f;
+	}
+
+	//角度補正
+	*pfRot += fRotDiff * ROTATE_FACT;
+
+	//角度の修正
+	if (fRotDiff < 0)
+	{
+		fRotDiff += 6.28f;
+	}
+	else if (fRotDiff > 0)
+	{
+		fRotDiff -= 6.28f;
+	}
+
+	//角度補正
+	*pfRot += fRotDiff * ROTATE_FACT;
+}
+
+//===========================
+// キーボード操作処理
+//===========================
+void ControlPlayerKeyboard(void)
+{
+	//変数宣言
+	int nLeft = DIK_J;
+	int nRight = DIK_L;
+
+	//情報取得
+	Camera *pCamera = GetCamera();
+
+	//移動==================================
+	if (GetKeyboardPress(nLeft))
+	{//左移動
+		//移動量加算
+		g_player.move.x -= MOVE_SPEED;
+
+		//プレイヤーの傾き設定
+		if (g_player.move.x < 0.0f)
+		{//マイナス方向に進んでいる場合
+			g_player.rotDest.z = -D3DX_PI + -(g_player.move.x / MAX_MOVE) * (-ROT_CURV - -D3DX_PI);
+		}
+		else
+		{//プラス方向に進んでいる場合
+			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
+		}
+
+		//カメラの傾き設定
+		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
+	}
+	if (GetKeyboardPress(nRight))
+	{//右移動
+		//移動量加算
+		g_player.move.x += MOVE_SPEED;
+
+		//プレイヤーの傾き設定
+		if (g_player.move.x < 0.0f)
+		{//マイナス方向に進んでいる場合
+			g_player.rotDest.z = -D3DX_PI + -(g_player.move.x / MAX_MOVE) * (-ROT_CURV - -D3DX_PI);
+		}
+		else
+		{//プラス方向に進んでいる場合
+			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
+		}
+
+		//カメラの傾き設定
+		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
+	}
+	//移動==================================
+
+	//向きを戻す============================
+	if (GetKeyboardRelease(nLeft) && GetKeyboardRelease(nRight) == false)
+	{//左離した瞬間に右を押してない場合
+		//目標の向き設定
+		g_player.rotDest.z = D3DX_PI;
+	}
+
+	if (GetKeyboardRelease(nRight) && GetKeyboardRelease(nLeft) == false)
+	{//左離した瞬間に右を押してない場合
+		//目標の向き設定
+		g_player.rotDest.z = D3DX_PI;
+	}
+	//向きを戻す============================
+}
+
+//===========================
+// パッド操作処理
+//===========================
+void ControlPlayerPad(void)
+{
+
+}
+
+//===========================
+// 描画処理
 //===========================
 void DrawPlayer(void)
 {
@@ -212,10 +348,15 @@ void DrawPlayer(void)
 		//マテリアルを戻す
 		pDevice->SetMaterial(&matDef);
 	}
+
+#ifdef _DEBUG		//デバッグ時のみ
+	PrintDebugProc("【プレイヤーの位置：%f,%f,%f】\n", g_player.pos.x, g_player.pos.y, g_player.pos.z);
+	PrintDebugProc("【プレイヤーの移動量：%f,%f,%f】\n", g_player.move.x, g_player.move.y, g_player.move.z);
+#endif
 }
 
 //===========================
-//プレイヤーの情報取得処理
+// 情報取得処理
 //===========================
 Player *GetPlayer(void)
 {
