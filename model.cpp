@@ -21,6 +21,7 @@
 // グローバル変数宣言
 //*****************************************
 Model g_aModelPlayer[MAX_PART];	//プレイヤーモデルの情報
+Model g_aModelEnemy[ENEMY_TYPE_MAX];
 
 int g_nNumPlayerPart;	//プレイヤーパーツの数
 
@@ -50,6 +51,7 @@ void UninitModel(void)
 void LoadAllModel(void)
 {
 	LoadPlayermodel();
+	//LoadEnemyModel();
 }
 
 //========================================
@@ -108,7 +110,18 @@ void LoadPlayermodel(void)
 		}
 	}
 }
-
+void LoadEnemyModel(void)
+{
+	const char *c_apModelEnemy[] =					//モデルデータ読み込み
+	{
+		"Data\\MODEL\\00.x",
+	};
+	for (int nCntEnemy = 0; nCntEnemy < ENEMY_TYPE_MAX; nCntEnemy++)
+	{
+		//Xファイルの読み込み
+		LoadModel(&g_aModelEnemy[nCntEnemy], c_apModelEnemy[nCntEnemy]);
+	}
+}
 //========================================
 // モデルの読み込み(汎用)
 //========================================
@@ -204,6 +217,11 @@ void LoadModel(Model *pModel,const char *pFilePass)
 Model *GetplayerModel(void)
 {
 	return &g_aModelPlayer[0];
+}
+
+Model *GetEnemyModel(int Type)
+{
+	return &g_aModelEnemy[Type];
 }
 
 //========================================
