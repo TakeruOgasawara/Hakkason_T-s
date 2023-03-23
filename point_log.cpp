@@ -23,8 +23,8 @@ LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffPointLog = NULL;	//頂点バッファへのポインタ
 PointLog g_aPointLog[MAX_POINT_NUM];	//構造体情報
 const char *c_apFilenameMessage[LOGTYPE_MAX] =
 {//Xファイルパス
-	"data\\TEXTURE\\PointMessage\\pointmessage_000.png",
-	"data\\TEXTURE\\PointMessage\\pointmessage_001.png",
+	"data\\TEXTURE\\UI\\HighTime_000.png",
+	"data\\TEXTURE\\UI\\nowTime_000.png",
 };
 
 //==================================================================================================
@@ -144,7 +144,7 @@ void UpdatePointLog(void)
 				//相対位置の設定
 				pPointLog->pos =
 				{
-					pPointLog->pPoint->pos.x - LOG_WIDTH * pPointLog->fScale * 0.7f,
+					pPointLog->pPoint->pos.x - LOG_WIDTH * pPointLog->fScale,
 					pPointLog->pPoint->pos.y,
 					0.0f
 				};
