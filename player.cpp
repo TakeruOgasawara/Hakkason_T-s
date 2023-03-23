@@ -209,7 +209,7 @@ void UpdatePlayer(void)
 		}
 		//プレイヤーの傾き設定====================================
 	}
-<<<<<<< HEAD
+
 	else
 	{//プラス方向に進んでいる場合
 		g_player.rotDest.y = D3DX_PI - (g_player.move.x / MAX_MOVE) * (ROT_CURV_Y - D3DX_PI);
@@ -222,8 +222,6 @@ void UpdatePlayer(void)
 	FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 
 	pCamera->fRoll *= ROLL_FACT;
-=======
->>>>>>> 6de32f318d1879edb86e3f8cf3c32edac2ab7f35
 }
 
 //===========================
