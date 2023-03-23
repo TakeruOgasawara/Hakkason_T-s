@@ -10,6 +10,8 @@
 #include "fade.h"
 #include "title.h"
 #include "sound.h"
+#include "point.h"
+#include "point_log.h"
 
 //画像のファイル名
 #define MAX_TEX		(1)
@@ -56,8 +58,14 @@ void InitResult(void)
 		&g_pVtxBuffResult,
 		NULL);
 
-		//リザルト背景の初期化
-		ResultBg();
+	//リザルト背景の初期化
+	ResultBg();
+
+	//取得スコア初期化
+	InitPoint();
+
+	//スコアメッセージ初期化
+	InitPointLog();
 
 		//サウンドの再生
 		//PlaySound(SOUND_LABEL_BGM000);
@@ -125,6 +133,12 @@ void UninitResult(void)
 		g_pVtxBuffResult->Release();
 		g_pVtxBuffResult = NULL;
 	}
+
+	//取得スコア終了
+	UninitPoint();
+
+	//スコアメッセージ終了
+	UninitPointLog();
 }
 
 //========================================================================
@@ -144,6 +158,12 @@ void UpdateResult(void)
 			SetFade(MODE_TITLE);
 		}
 	}
+
+	//取得スコア更新
+	UpdatePoint();
+
+	//スコアメッセージ更新
+	UpdatePointLog();
 }
 
 //========================================================================
@@ -163,7 +183,7 @@ void DrawResult(void)
 
 	for (int nCnt = 0; nCnt < MAX_TEX; nCnt++)
 	{
-		//テクスチャの設定z
+		//テクスチャの設定
 		pDevice->SetTexture(0, g_pTextureResult[nCnt]);
 
 		//ポリゴンの描画
@@ -171,4 +191,10 @@ void DrawResult(void)
 			nCnt * 4,						//描画する最初のインデックス(大事)
 			2);						//プリミティブ(ポリゴン)数
 	}
+
+	//取得スコア描画
+	DrawPoint();
+
+	//スコアメッセージ描画
+	DrawPointLog();
 }

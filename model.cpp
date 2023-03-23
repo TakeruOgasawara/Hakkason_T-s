@@ -16,12 +16,13 @@
 // マクロ定義
 //*****************************************
 #define MAX_STRING	(256)	//文字数の最大
+#define NUM_ENEMY (1) //敵の種類
 
 //*****************************************
 // グローバル変数宣言
 //*****************************************
 Model g_aModelPlayer[MAX_PART];	//プレイヤーモデルの情報
-Model g_aModelEnemy[ENEMY_TYPE_MAX];
+Model g_aModelEnemy[NUM_ENEMY];
 
 int g_nNumPlayerPart;	//プレイヤーパーツの数
 
@@ -51,7 +52,7 @@ void UninitModel(void)
 void LoadAllModel(void)
 {
 	LoadPlayermodel();
-	//LoadEnemyModel();
+	LoadEnemyModel();
 }
 
 //========================================
@@ -114,9 +115,9 @@ void LoadEnemyModel(void)
 {
 	const char *c_apModelEnemy[] =					//モデルデータ読み込み
 	{
-		"Data\\MODEL\\00.x",
+		"data\\MODEL\\kiso.x",
 	};
-	for (int nCntEnemy = 0; nCntEnemy < ENEMY_TYPE_MAX; nCntEnemy++)
+	for (int nCntEnemy = 0; nCntEnemy < NUM_ENEMY; nCntEnemy++)
 	{
 		//Xファイルの読み込み
 		LoadModel(&g_aModelEnemy[nCntEnemy], c_apModelEnemy[nCntEnemy]);
