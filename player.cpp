@@ -23,10 +23,10 @@
 #define FORWARD_FACT	(0.999f)	//移動量の減衰係数
 #define ROTATE_FACT	(0.04f)	//向きの補正係数
 #define ROT_CURV_Z	(D3DX_PI * 0.9f)	//傾けた時の曲がり方Z
-#define ROT_CURV_Y	(D3DX_PI * 0.92f)	//傾けた時の曲がり方Y
+#define ROT_CURV_Y	(D3DX_PI * 0.96f)	//傾けた時の曲がり方Y
 #define MAX_MOVE	(1.75f)	//移動量の最大
-#define ROLL_FACT	(0.7f)	//カメラが回転する倍率
-#define SPEED_FORWARD	(0.05f)	//前進する加速量
+#define ROLL_FACT	(0.8f)	//カメラが回転する倍率
+#define SPEED_FORWARD	(0.055f)	//前進する加速量
 #define BREAKE_FACT	(0.98f)	//ブレーキの減衰係数
 
 //***************************
