@@ -34,6 +34,7 @@ void CameraRoll(int nCnt);			//カメラのロール処理
 // グローバル宣言
 //*****************************
 Camera g_aCamera[MAX_CAMERA];			//カメラ情報
+bool g_bFollowPlayer;	//カメラを追従させるかどうか
 
 //====================================================================
 // カメラの初期化処理
@@ -59,6 +60,8 @@ void InitCamera(void)
 	g_aCamera[0].viewport.Height = 720;			// 画面の高さ
 	g_aCamera[0].viewport.MinZ = 0.0f;			// 
 	g_aCamera[0].viewport.MaxZ = 1.0f;			// 
+
+	g_bFollowPlayer = true;
 }
 
 //====================================================================
@@ -74,11 +77,23 @@ void UninitCamera(void)
 //====================================================================
 void UpdateCamera(void)
 {
-	//カメラの操作が入ってる関数
-	CameraOps();
+	if (g_bFollowPlayer)
+	{
+		//プレイヤー追従処理
+		FollowPlayer();
+	}
+	else
+	{
+		//カメラの操作が入ってる関数
+		CameraOps();
+	}
 
-	//プレイヤー追従処理
-	FollowPlayer();
+#ifdef _DEBUG
+	if (GetKeyboardTrigger(DIK_F9))
+	{
+		g_bFollowPlayer = g_bFollowPlayer ? false : true;
+	}
+#endif
 }
 
 //====================================================================
@@ -380,6 +395,7 @@ void SetCamera(int nIdx)
 	PrintDebugProc("注視点   [%f  %f  %f]\n", g_aCamera[nIdx].posR.x, g_aCamera[nIdx].posR.y, g_aCamera[nIdx].posR.z);
 	PrintDebugProc("向き     [%f  %f  %f]\n", g_aCamera[nIdx].rot.x, g_aCamera[nIdx].rot.y, g_aCamera[nIdx].rot.z);
 	PrintDebugProc("ロール   [%f]\n", g_aCamera[nIdx].fRoll);
+	PrintDebugProc("追従切り替え[F9])\n");
 #endif
 }
 
