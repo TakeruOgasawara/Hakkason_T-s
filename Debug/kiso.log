@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-﻿  title.cpp
-cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
+﻿  game.cpp
+sound.obj : warning LNK4204: 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+meshfield.obj : warning LNK4204: 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+light.obj : warning LNK4204: 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+fade.obj : warning LNK4204: 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
   kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.exe
   kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
-=======
-﻿  player.cpp
-  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.exe
-  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
->>>>>>> 9bd4f9ba9a5273b96b5edc9b155c26f20e4866e3
