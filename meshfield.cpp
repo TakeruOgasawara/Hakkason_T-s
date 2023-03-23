@@ -10,8 +10,8 @@
 //É}ÉNÉçíËã`
 //**********************************
 #define MAX_TEX			(1)
-#define FILED_WIDTH		(200.0f)			//â°ïù
-#define FIELD_HEIGHT	(500.0f)			//ècïù
+#define FILED_WIDTH		(150000.0f)			//â°ïù
+#define FIELD_HEIGHT	(150000.0f)			//ècïù
 
 #define SPLIT_X			(2)					//ï™äÑêî(x)
 #define SPLIT_Y			(2)					//ï™äÑêî(z)
@@ -21,7 +21,7 @@
 //***********************************
 const char *c_apTexMeshFeald[] =
 {
-	"data\\TEXTURE\\GAME\\do-ro.png"
+	"data\\TEXTURE\\GAME\\do-ro.pg"
 };
 
 //***********************************

@@ -227,7 +227,7 @@ void DrawGame(void)
 	SetCamera(0);
 
 	//メッシュフィールドの描画処理
-	//DrawMeshField();
+	DrawMeshField();
 	DrawField();
 
 	//エフェクトの描画処理
