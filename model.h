@@ -8,6 +8,7 @@
 #define _MODEL_H_							//2重インクルード防止のマクロを定義するv
 
 #include"main.h"
+#include "Enemy.h"
 
 //*****************************************
 // マクロ定義
@@ -40,9 +41,11 @@ void UninitXFile(Model *pModel);
 void LoadModel(Model *pModel, const char *pFilePass);	//汎用読み込み処理
 void LoadAllModel(void);	//読み込み処理まとめ
 void LoadPlayermodel(void);
+void LoadEnemyModel(void);
 
 //情報取得
 Model *GetplayerModel(void);
+Model *GetEnemyModel(int Type);
 
 int GetNumPlayerPart(void);
 

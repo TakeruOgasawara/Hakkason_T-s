@@ -34,6 +34,7 @@ void CameraRoll(int nCnt);			//カメラのロール処理
 // グローバル宣言
 //*****************************
 Camera g_aCamera[MAX_CAMERA];			//カメラ情報
+bool g_bFollowPlayer;	//カメラを追従させるかどうか
 
 //====================================================================
 // カメラの初期化処理
@@ -59,6 +60,8 @@ void InitCamera(void)
 	g_aCamera[0].viewport.Height = 720;			// 画面の高さ
 	g_aCamera[0].viewport.MinZ = 0.0f;			// 
 	g_aCamera[0].viewport.MaxZ = 1.0f;			// 
+
+	g_bFollowPlayer = true;
 }
 
 //====================================================================
@@ -74,11 +77,23 @@ void UninitCamera(void)
 //====================================================================
 void UpdateCamera(void)
 {
-	//カメラの操作が入ってる関数
-	CameraOps();
+	if (g_bFollowPlayer)
+	{
+		//プレイヤー追従処理
+		FollowPlayer();
+	}
+	else
+	{
+		//カメラの操作が入ってる関数
+		CameraOps();
+	}
 
-	//プレイヤー追従処理
-	//FollowPlayer();
+#ifdef _DEBUG
+	if (GetKeyboardTrigger(DIK_F9))
+	{
+		g_bFollowPlayer = g_bFollowPlayer ? false : true;
+	}
+#endif
 }
 
 //====================================================================
@@ -361,12 +376,15 @@ void SetCamera(int nIdx)
 		&g_aCamera[nIdx].vecU);						//情報ベクトル
 
 	//カメラのロール用
-	D3DXMATRIX rotationZMatrix;
-	D3DXMatrixRotationZ(&rotationZMatrix, g_aCamera[nIdx].fRoll); // Z軸回転行列の計算
-	D3DXMATRIX viewMatrixWithRotation = rotationZMatrix * g_aCamera[nIdx].mtxView; // Z軸回転を加えたビュー行列
+	// Z軸を中心に回転する行列を計算
+	D3DXVECTOR3 rotationAxis(0.0f, 0.0f, 1.0f);
+	D3DXMATRIX rotationMatrix;
+	D3DXMatrixRotationAxis(&rotationMatrix, &rotationAxis, g_aCamera[nIdx].fRoll);
 
+	// ビュー行列に回転行列を乗算する
+	g_aCamera[nIdx].mtxView *= rotationMatrix;
 	//ビューマトリックスの設定
-	pDevice->SetTransform(D3DTS_VIEW, &viewMatrixWithRotation);
+	pDevice->SetTransform(D3DTS_VIEW, &g_aCamera[nIdx].mtxView);
 
 	//使っている状態へ
 	g_aCamera[nIdx].bUse = true;
@@ -377,6 +395,7 @@ void SetCamera(int nIdx)
 	PrintDebugProc("注視点   [%f  %f  %f]\n", g_aCamera[nIdx].posR.x, g_aCamera[nIdx].posR.y, g_aCamera[nIdx].posR.z);
 	PrintDebugProc("向き     [%f  %f  %f]\n", g_aCamera[nIdx].rot.x, g_aCamera[nIdx].rot.y, g_aCamera[nIdx].rot.z);
 	PrintDebugProc("ロール   [%f]\n", g_aCamera[nIdx].fRoll);
+	PrintDebugProc("追従切り替え[F9])\n");
 #endif
 }
 
