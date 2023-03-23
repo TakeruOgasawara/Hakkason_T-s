@@ -94,10 +94,10 @@ void InitResult(void)
 	{//ファイルが開けなかった場合
 	}
 
-	nHighScore = 2;
+	//nHighScore = 180;
 	//ソート処理=========================
 
-	if (nHighScore > GetTime())
+	if (nHighScore < GetTime())
 	{//更新した場合
 		nHighScore = GetTime();
 
@@ -118,12 +118,12 @@ void InitResult(void)
 		}
 	}
 
-	int nMinite = nHighScore / 60;
-	int nSecond = nHighScore % 60;
+	int nMinite = INITIAL_MINITE - nHighScore / 60 - 1;
+	int nSecond = 60 - nHighScore % 60;
 
 	//最速スコア表示
-	SetPointScore(nMinite, D3DXVECTOR3(500.0f, 200.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_MINITE, 1.0f, LOGTYPE_NOW);
-	SetPointScore(nSecond, D3DXVECTOR3(650.0f, 200.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_SECOND, 1.0f, LOGTYPE_NOW);
+	SetPointScore(nMinite, D3DXVECTOR3(500.0f, 200.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_MINITE, 1.0f, LOGTYPE_TOTAL);
+	SetPointScore(nSecond, D3DXVECTOR3(650.0f, 200.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_SECOND, 1.0f, LOGTYPE_TOTAL);
 
 	nMinite = INITIAL_MINITE - GetTime() / 60 - 1;
 	nSecond = 60 - GetTime() % 60;

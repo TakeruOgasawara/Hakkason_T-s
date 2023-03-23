@@ -25,11 +25,13 @@
 #define FORWARD_FACT	(0.999f)	//ˆÚ“®—Ê‚ÌŒ¸ŠŒW”
 #define ROTATE_FACT	(0.04f)	//Œü‚«‚Ì•â³ŒW”
 #define ROT_CURV_Z	(D3DX_PI * 0.9f)	//ŒX‚¯‚½‚Ì‹È‚ª‚è•ûZ
-#define ROT_CURV_Y	(D3DX_PI * 0.92f)	//ŒX‚¯‚½‚Ì‹È‚ª‚è•ûY
+#define ROT_CURV_Y	(D3DX_PI * 0.96f)	//ŒX‚¯‚½‚Ì‹È‚ª‚è•ûY
 #define MAX_MOVE	(1.75f)	//ˆÚ“®—Ê‚ÌÅ‘å
-#define ROLL_FACT	(0.7f)	//ƒJƒƒ‰‚ª‰ñ“]‚·‚é”{—¦
-#define SPEED_FORWARD	(0.05f)	//‘Oi‚·‚é‰Á‘¬—Ê
+#define ROLL_FACT	(0.8f)	//ƒJƒƒ‰‚ª‰ñ“]‚·‚é”{—¦
+#define SPEED_FORWARD	(0.055f)	//‘Oi‚·‚é‰Á‘¬—Ê
 #define BREAKE_FACT	(0.98f)	//ƒuƒŒ[ƒL‚ÌŒ¸ŠŒW”
+
+#define CURV_SPEED	(15.0f)	//‹È‚ª‚ê‚é‚Ü‚Å‚ÌƒXƒs[ƒh
 
 //***************************
 //ƒOƒ[ƒoƒ‹éŒ¾
@@ -159,6 +161,16 @@ void UpdatePlayer(void)
 		//ˆÊ’u‚ÉˆÚ“®—Ê‚ğ‰ÁZ
 		g_player.pos += g_player.move;
 		g_player.move.x = g_player.move.x * MOVE_FACT;
+	if (CollisionEnemy(&g_player.pos, &g_player.posOld) == true)
+	{
+		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100.0f, 5.0f, 15, 1, 20, 80, 629, 100);
+		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 300.0f, 5.0f, 30, 0, 1, 120, 314, 30);
+	
+	}
+	
+	//Œü‚«•â³ˆ—
+	FactingRot(&g_player.rot.z, g_player.rotDest.z);
+	FactingRot(&g_player.rot.y,g_player.rotDest.y);
 
 		/*if (CollisionOuterProductEnemy(&g_player.pos, &g_player.posOld, &g_player.move) == true)
 		{
@@ -251,8 +263,17 @@ void ControlPlayerKeyboard(void)
 	//ˆÚ“®==================================
 	if (GetKeyboardPress(nLeft))
 	{//¶ˆÚ“®
-		//ˆÚ“®—Ê‰ÁZ
-		g_player.move.x -= MOVE_SPEED;
+
+		if (g_player.move.z < CURV_SPEED)
+		{
+			//ˆÚ“®—Ê‰ÁZ
+			g_player.move.x -= g_player.move.z / CURV_SPEED * MOVE_SPEED;
+		}
+		else
+		{
+			//ˆÚ“®—Ê‰ÁZ
+			g_player.move.x -= MOVE_SPEED;
+		}
 
 		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 
@@ -260,8 +281,16 @@ void ControlPlayerKeyboard(void)
 	}
 	else if (GetKeyboardPress(nRight))
 	{//‰EˆÚ“®
-		//ˆÚ“®—Ê‰ÁZ
-		g_player.move.x += MOVE_SPEED;
+		if (g_player.move.z < CURV_SPEED)
+		{
+			//ˆÚ“®—Ê‰ÁZ
+			g_player.move.x += g_player.move.z / CURV_SPEED * MOVE_SPEED;
+		}
+		else
+		{
+			//ˆÚ“®—Ê‰ÁZ
+			g_player.move.x += MOVE_SPEED;
+		}
 
 		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 
@@ -312,7 +341,16 @@ void ControlPlayerKeyboard(void)
 void ControlPlayerPad(void)
 {
 	//‰¡ˆÚ“®========================
-	g_player.move.x += GetJoyStickLX(0) * MOVE_SPEED;
+	if (g_player.move.z < CURV_SPEED)
+	{
+		//ˆÚ“®—Ê‰ÁZ
+		g_player.move.x += g_player.move.z / CURV_SPEED * MOVE_SPEED * GetJoyStickLX(0);
+	}
+	else
+	{
+		//ˆÚ“®—Ê‰ÁZ
+		g_player.move.x += GetJoyStickLX(0) * MOVE_SPEED;
+	}
 	//‰¡ˆÚ“®========================
 
 	if (GetJoyPadPress(BUTTON_RB,0))

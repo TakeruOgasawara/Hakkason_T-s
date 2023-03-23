@@ -1,3 +1,21 @@
+<<<<<<< HEAD
 ﻿  game.cpp
   kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.exe
   kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+=======
+<<<<<<< HEAD
+﻿  point_log.cpp
+cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
+=======
+<<<<<<< HEAD
+﻿particle.obj : warning LNK4204: 'C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+effect.obj : warning LNK4204: 'C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\vc140.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.exe
+  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+=======
+﻿  player.cpp
+>>>>>>> bc9d32b773617277eb1a35228d9cbd9a148ec212
+  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s - コピー\Debug\kiso.exe
+  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s - コピー\Debug\kiso.pdb (Full PDB)
+>>>>>>> 00046c51ed9bd991c74975e8b1470a6f63831872
+>>>>>>> 18b48d0d75f10f6aff4ee7c3824bf0ef1f3f42b0

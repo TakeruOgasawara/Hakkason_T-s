@@ -75,7 +75,7 @@ void InitGame(void)
 	InitFog();
 
 	//ÉtÉHÉOÇÃê›íË
-	SetFog(D3DFOG_LINEAR, D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.7f), 100.0f, 1000.0f, 0.1f);
+	SetFog(D3DFOG_LINEAR, D3DXCOLOR(0.7f, 0.7f, 0.8f, 1.0f), 100.0f, 7000.0f, 0.1f);
 
 	InitObject();
 
