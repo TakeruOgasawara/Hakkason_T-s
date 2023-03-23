@@ -75,6 +75,7 @@ void DrawParticle()
 {
 
 }
+
 void SetParticle(D3DXVECTOR3 pos, D3DXVECTOR3 move, D3DXCOLOR col, D3DXVECTOR3 rot, float fRad, float fMove, int nLife, int nType, int nEffect, int nEffectLife, int nRand, int nMaxSpeed)
 {
 	for (int nCntParticle = 0; nCntParticle < MAX_PARTICLE; nCntParticle++)
