@@ -14,6 +14,7 @@
 #include "point_log.h"
 #include "time.h"
 #include <stdio.h>
+#include "player.h"
 
 //画像のファイル名
 #define MAX_TEX		(1)
@@ -43,6 +44,9 @@ Result g_Result;
 //========================================================================
 void InitResult(void)
 {
+	//情報取得
+	Player *pPlayer = GetPlayer();
+
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -94,27 +98,30 @@ void InitResult(void)
 	{//ファイルが開けなかった場合
 	}
 
-	nHighScore = 0;
+	//nHighScore = 0;
 	//ソート処理=========================
 
-	//if (nHighScore < GetTime())
-	{//更新した場合
-		//nHighScore = GetTime();
+	if (pPlayer->bUse)
+	{
+		if (nHighScore < GetTime())
+		{//更新した場合
+			nHighScore = GetTime();
 
-		//ファイルを開く
-		pFile = fopen("data/SAVE/ranking.bin", "wb");
+			//ファイルを開く
+			pFile = fopen("data/SAVE/ranking.bin", "wb");
 
-		if (pFile != NULL)
-		{//ファイルが開けた場合
+			if (pFile != NULL)
+			{//ファイルが開けた場合
 
 			 //バイナリファイルに書き込む
-			fwrite(&nHighScore, sizeof(int), 1, pFile);
+				fwrite(&nHighScore, sizeof(int), 1, pFile);
 
-			//ファイルを閉じる
-			fclose(pFile);
-		}
-		else
-		{//ファイルが開けなかった場合
+				//ファイルを閉じる
+				fclose(pFile);
+			}
+			else
+			{//ファイルが開けなかった場合
+			}
 		}
 	}
 
@@ -128,9 +135,13 @@ void InitResult(void)
 	nMinite = INITIAL_MINITE - GetTime() / 60 - 1;
 	nSecond = 60 - GetTime() % 60;
 
-	//あなたのスコア表示
-	SetPointScore(nMinite, D3DXVECTOR3(500.0f, 300.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_MINITE, 1.0f, LOGTYPE_NOW);
-	SetPointScore(nSecond,D3DXVECTOR3(650.0f,300.0f,0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f),POINTTYPE_SECOND,1.0f,LOGTYPE_NOW);
+	if (pPlayer->bUse)
+	{
+		//あなたのスコア表示
+		SetPointScore(nMinite, D3DXVECTOR3(500.0f, 300.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_MINITE, 1.0f, LOGTYPE_NOW);
+		SetPointScore(nSecond, D3DXVECTOR3(650.0f, 300.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f), POINTTYPE_SECOND, 1.0f, LOGTYPE_NOW);
+
+	}
 }
 
 //---------------------------------------------------------
