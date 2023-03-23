@@ -46,6 +46,8 @@ typedef struct
 	D3DXVECTOR3 rotDest;		//目標の向き
 	D3DXMATRIX mtxWorld;		//ワールドマトリックス
 	PlayerPart part[MAX_PART];	//パーツ
+
+	bool bUse;
 }Player;
 
 //*********************

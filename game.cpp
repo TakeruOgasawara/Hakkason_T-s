@@ -19,11 +19,16 @@
 #include "player.h"
 #include "Enemy.h"
 #include "fog.h"
+#include "object.h"
 
 //*****************************
 // マクロ定義
 //*****************************
+<<<<<<< HEAD
 #define GOAL_DIST	(150000.0f)	//ゴールまでの距離
+=======
+#define GOAL_DIST	(150000.0f)			//ゴールまでの距離
+>>>>>>> 6de32f318d1879edb86e3f8cf3c32edac2ab7f35
 
 //*****************************
 // プロトタイプ宣言
@@ -76,6 +81,8 @@ void InitGame(void)
 	//フォグの設定
 	SetFog(D3DFOG_LINEAR, D3DXCOLOR(0.7f, 0.7f, 0.8f, 1.0f), 100.0f, 7000.0f, 0.1f);
 
+	InitObject();
+
 	//通常状態へ
 	g_gameState = GAMESTATE_NORMAL;
 
@@ -117,6 +124,9 @@ void UninitGame(void)
 
 	//フォグの終了処理
 	UninitFog();
+
+	//オブジェクトの終了処理
+	UninitObject();
 
 	//メッシュフィールドの終了処理
 	UninitMeshField();
@@ -178,8 +188,8 @@ void UpdateGame(void)
 
 	UpdateFog();
 
-	//if (g_gameState == GAMESTATE_END)
-	//{//条件がそろう時に行える
+	if (g_gameState == GAMESTATE_END)
+	{//条件がそろう時に行える
 		switch (g_gameState)
 		{
 		case GAMESTATE_NORMAL:			//通常状態
@@ -208,7 +218,7 @@ void UpdateGame(void)
 			}
 			break;
 		}
-	//}
+	}
 }
 
 //========================================================================
@@ -236,6 +246,9 @@ void DrawGame(void)
 	DrawPlayer();
 
 	DrawEnemy();
+
+	//オブジェクトの描画
+	DrawObject();
 
 	//タイムの描画
 	DrawTime();
