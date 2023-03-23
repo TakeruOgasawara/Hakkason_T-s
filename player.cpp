@@ -18,13 +18,14 @@
 #define MAX_STRING	(256)	//文字数の最大
 #define MOVE_SPEED	(0.2f)	//移動速度
 #define MOVE_FACT	(0.935f)	//移動量の減衰係数
-#define FORWARD_FACT	(0.99f)	//移動量の減衰係数
+#define FORWARD_FACT	(0.999f)	//移動量の減衰係数
 #define ROTATE_FACT	(0.04f)	//向きの補正係数
 #define ROT_CURV_Z	(D3DX_PI * 0.9f)	//傾けた時の曲がり方Z
 #define ROT_CURV_Y	(D3DX_PI * 0.92f)	//傾けた時の曲がり方Y
 #define MAX_MOVE	(1.75f)	//移動量の最大
 #define ROLL_FACT	(0.5f)	//カメラが回転する倍率
 #define SPEED_FORWARD	(0.05f)	//前進する加速量
+#define BREAKE_FACT	(0.98f)	//ブレーキの減衰係数
 
 //***************************
 //グローバル宣言
@@ -199,6 +200,7 @@ void ControlPlayerKeyboard(void)
 	int nLeft = DIK_J;
 	int nRight = DIK_L;
 	int nForward = DIK_I;
+	int nBreake = DIK_K;
 
 	//情報取得
 	Camera *pCamera = GetCamera();
@@ -271,8 +273,17 @@ void ControlPlayerKeyboard(void)
 	}
 	else
 	{
-		g_player.move.z = g_player.move.z * FORWARD_FACT;
+		if (GetKeyboardPress(nBreake))
+		{//ブレーキ
+			g_player.move.z = g_player.move.z * BREAKE_FACT;
+		}
+		else
+		{//通常減衰
+			g_player.move.z = g_player.move.z * FORWARD_FACT;
+		}
 	}
+
+
 	//移動==================================
 
 	//向きを戻す============================
