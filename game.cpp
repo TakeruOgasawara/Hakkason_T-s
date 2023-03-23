@@ -17,6 +17,7 @@
 #include "camera.h"
 #include "light.h"
 #include "player.h"
+#include "fog.h"
 
 //*****************************
 // マクロ定義
@@ -67,6 +68,12 @@ void InitGame(void)
 	//プレイヤーの初期化
 	InitPlayer();
 
+	//フォグの初期化
+	InitFog();
+
+	//フォグの設定
+	SetFog(D3DFOG_LINEAR, D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.7f), 100.0f, 1000.0f, 0.1f);
+
 	//通常状態へ
 	g_gameState = GAMESTATE_NORMAL;
 
@@ -104,6 +111,9 @@ void UninitGame(void)
 
 	//ポーズの終了処理
 	UninitPause();
+
+	//フォグの終了処理
+	UninitFog();
 
 	//メッシュフィールドの終了処理
 	UninitMeshField();
@@ -156,6 +166,8 @@ void UpdateGame(void)
 	}
 
 	UpdateCamera();
+
+	UpdateFog();
 
 	//if (g_gameState == GAMESTATE_END)
 	//{//条件がそろう時に行える
@@ -216,6 +228,9 @@ void DrawGame(void)
 
 	//タイムの描画
 	DrawTime();
+
+	//フォグの描画
+	DrawFog();
 	
 	if (pPause->bPause == true)
 	{//ポーズ中だった場合
