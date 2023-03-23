@@ -21,7 +21,7 @@
 //***********************************
 const char *c_apTexMeshFeald[] =
 {
-	"data\\TEXTURE\\GAME\\do-ro.pg"
+	"data\\TEXTURE\\GAME\\ground.jpg"
 };
 
 //***********************************
@@ -149,7 +149,7 @@ void InitMeshField(void)
 	//インデックスバッファをアンロックする
 	g_pIdxBuffMeshfield->Unlock();
 
-	SetMeshField(D3DXVECTOR3(0.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 0);
+	SetMeshField(D3DXVECTOR3(0.0f, -10.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 0);
 	SetMeshField(D3DXVECTOR3(100.0f, 0.0f, 600.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 0);
 }
 
