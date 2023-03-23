@@ -30,6 +30,7 @@ typedef struct
 	D3DVIEWPORT9 viewport;		//ビューポート
 	bool bUse;					//使っているかどうか
 
+	float fRoll;				 //カメラのロール角度
 	float fLengthCamera;		//長さ
 	bool bFollow;				//追従処理のON/OFF
 } Camera;

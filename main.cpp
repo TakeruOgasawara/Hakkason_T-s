@@ -16,6 +16,7 @@
 #include "debugproc.h"
 #include "light.h"
 #include "camera.h"
+#include "model.h"
 
 //*****************************
 //マクロ定義
@@ -346,6 +347,12 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//サウンドの初期化
 	//InitSound(hWnd);
 
+	//モデル情報初期化
+	InitModel();
+
+	//モデル読み込み
+	LoadAllModel();
+
 	//フェードの設定
 	InitFade(g_mode);
 
@@ -354,7 +361,6 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	return S_OK;
 }
-
 
 //==================================================
 //終了処理
@@ -366,6 +372,9 @@ void Uninit(void)
 
 	//デバッグプロックの終了処理
 	UninitDebugProc();
+
+	//モデルの終了
+	UninitModel();
 
 	//タイトル画面の終了処理
 	UninitTitle();

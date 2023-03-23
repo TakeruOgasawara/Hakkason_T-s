@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 ﻿  camera.cpp
 cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
   kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.exe
   kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+=======
+﻿  player.cpp
+  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.exe
+  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+>>>>>>> ff54aaef08566a5c2fa24f2504c63e51e9109b3b
