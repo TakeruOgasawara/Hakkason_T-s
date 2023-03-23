@@ -10,6 +10,9 @@
 #include "fade.h"
 #include "sound.h"
 #include "debugproc.h"
+#include "field.h"
+#include "camera.h"
+#include "light.h"
 
 //*****************************
 //マクロ定義
@@ -67,6 +70,13 @@ void DrawTitleStart(void);
 void InitTitleTutorial(int nCntTitle);
 //その他
 void TileFade(void);			//文字の点滅
+
+//タイトル
+void InitTitleCamera(void);
+void UninitTitleCamera(void);
+void UpdateTitleCamera(void);
+void DrawTitleCamera(void);
+
 
 //*****************************
 //グローバル変数
@@ -133,7 +143,7 @@ void InitTitle(void)
 	//スタートロゴの初期化
 	InitTitleStart(0);
 		
-	
+	InitTitleCamera();
 
 	//サウンドの再生
 	//PlaySound(SOUND_LABEL_BGM001);
@@ -282,6 +292,8 @@ void UninitTitle(void)
 			g_pVtxBuffTitle[nCntBuff] = NULL;
 		}
 	}
+
+	UninitTitleCamera();
 }
 
 //========================================================================
@@ -291,6 +303,8 @@ void UpdateTitle(void)
 {
 	//タイトル文字の点滅(次のモードへ)
 	TileFade();
+
+	UpdateTitleCamera();
 }
 
 //------------------------------
@@ -399,6 +413,8 @@ void DrawTitle(void)
 
 	//セレクト文字の描画処理
 	DrawTitleStart();
+
+	DrawTitleCamera();
 }
 
 //-----------------------------------------------------------
@@ -453,4 +469,72 @@ void DrawTitleStart(void)
 			nCnt * 4,						//描画する最初のインデックス(大事)
 			2);						//プリミティブ(ポリゴン)数
 	}
+}
+
+
+
+//============================================================
+//
+//============================================================
+void InitTitleCamera(void)
+{
+	InitLight();
+	
+	InitField();
+}
+
+//============================================================
+//
+//============================================================
+void UninitTitleCamera(void)
+{
+	UninitField();
+}
+
+//============================================================
+//
+//============================================================
+void UpdateTitleCamera(void)
+{
+	//Camera *pCamera = GetCamera();
+
+	//pCamera->rot.y += 0.004f;
+
+	////y
+	//if (pCamera->rot.y > D3DX_PI)
+	//{
+	//	pCamera->rot.y = -D3DX_PI;
+	//}
+	//if (pCamera->rot.y < -D3DX_PI)
+	//{
+	//	pCamera->rot.y = D3DX_PI;
+	//}
+
+	////カメラを更新する
+	//pCamera->posV.x = pCamera->posR.x + (cosf(pCamera->rot.z) * sinf(pCamera->rot.y)) * -1200.0f;
+	//pCamera->posV.y = pCamera->posR.y + 500.0f + sinf(pCamera->rot.z) * -1200.0f;			//視点Y
+	//pCamera->posV.z = pCamera->posR.z + (cosf(pCamera->rot.z) * cosf(pCamera->rot.y)) * -1200.0f;
+
+	UpdateCamera();
+}
+
+//============================================================
+//
+//============================================================
+void DrawTitleCamera(void)
+{
+	Camera *pCamera = GetCamera();
+
+	SetCamera(0);
+
+	DrawField();
+
+
+#ifdef _DEBUG		//デバッグ時のみ
+	PrintDebugProc("【カメラ情報】\n");
+	PrintDebugProc("視点     [%f  %f  %f]\n", pCamera->posV.x, pCamera->posV.y, pCamera->posV.z);
+	PrintDebugProc("注視点   [%f  %f  %f]\n", pCamera->posR.x, pCamera->posR.y, pCamera->posR.z);
+	PrintDebugProc("向き     [%f  %f  %f]\n", pCamera->rot.x, pCamera->rot.y, pCamera->rot.z);
+	PrintDebugProc("追従切り替え[F9])\n");
+#endif
 }

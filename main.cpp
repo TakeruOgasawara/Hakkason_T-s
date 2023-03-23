@@ -44,7 +44,7 @@ LPDIRECT3DDEVICE9 g_pD3DDevice = NULL;			//Directx3Dへのデバイスへのポインタ
 int g_nCountFPS = 0;							//FPSカウンタ
 bool g_DispDebug = true;						//デバッグ表示のON/OFF
 bool g_bWireframe = false;						//ワイヤーフレームのON/OFF
-MODE g_mode = MODE_GAME;						//現在のモード
+MODE g_mode = MODE_TITLE;						//現在のモード
 
 //===========================================================================================
 //メイン関数
