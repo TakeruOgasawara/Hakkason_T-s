@@ -211,6 +211,19 @@ void UpdatePlayer(void)
 		}
 		//プレイヤーの傾き設定====================================
 	}
+
+	else
+	{//プラス方向に進んでいる場合
+		g_player.rotDest.y = D3DX_PI - (g_player.move.x / MAX_MOVE) * (ROT_CURV_Y - D3DX_PI);
+	}
+	//プレイヤーの傾き設定====================================
+
+	//情報取得
+	Camera *pCamera = GetCamera();
+
+	FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
+
+	pCamera->fRoll *= ROLL_FACT;
 }
 
 //===========================
@@ -259,8 +272,7 @@ void ControlPlayerKeyboard(void)
 	int nForward = DIK_I;
 	int nBreake = DIK_K;
 
-	//情報取得
-	Camera *pCamera = GetCamera();
+	
 
 	//移動==================================
 	if (GetKeyboardPress(nLeft))
@@ -276,10 +288,6 @@ void ControlPlayerKeyboard(void)
 			//移動量加算
 			g_player.move.x -= MOVE_SPEED;
 		}
-
-		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
-
-		pCamera->fRoll *= ROLL_FACT;
 	}
 	else if (GetKeyboardPress(nRight))
 	{//右移動
@@ -294,13 +302,9 @@ void ControlPlayerKeyboard(void)
 			g_player.move.x += MOVE_SPEED;
 		}
 
-		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
-
-		pCamera->fRoll *= ROLL_FACT;
 	}
 	else
 	{
-		FactingRot(&pCamera->fRoll, D3DX_PI);
 	}
 
 	if (GetKeyboardPress(nForward))
