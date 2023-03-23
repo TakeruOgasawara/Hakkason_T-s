@@ -131,12 +131,12 @@ void FollowPlayer(void)
 	for (int nCnt = 0; nCnt < MAX_CAMERA; nCnt++)
 	{
 		//プレイヤーの位置を注視点に設定
-		g_aCamera[nCnt].posR = pPlayer->pos;
+		g_aCamera[nCnt].posR = { pPlayer->pos.x,pPlayer->pos.y + 30.0f,pPlayer->pos.z };
 
 		//視点の相対位置設定
 		g_aCamera[nCnt].posV.x = g_aCamera[nCnt].posR.x;
-		g_aCamera[nCnt].posV.y = g_aCamera[nCnt].posR.y + 50.0f;			//視点Y
-		g_aCamera[nCnt].posV.z = g_aCamera[nCnt].posR.z - g_aCamera[nCnt].fLengthCamera;
+		g_aCamera[nCnt].posV.y = g_aCamera[nCnt].posR.y + 40.0f;			//視点Y
+		g_aCamera[nCnt].posV.z = g_aCamera[nCnt].posR.z - g_aCamera[nCnt].fLengthCamera * 1.2f;
 	}
 }
 

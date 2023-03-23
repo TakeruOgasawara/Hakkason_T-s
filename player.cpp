@@ -17,11 +17,13 @@
 //***************************
 #define MAX_STRING	(256)	//ï∂éöêîÇÃç≈ëÂ
 #define MOVE_SPEED	(0.2f)	//à⁄ìÆë¨ìx
-#define MOVE_FACT	(0.9f)	//à⁄ìÆó ÇÃå∏êäåWêî
-#define ROTATE_FACT	(0.05f)	//å¸Ç´ÇÃï‚ê≥åWêî
+#define MOVE_FACT	(0.935f)	//à⁄ìÆó ÇÃå∏êäåWêî
+#define FORWARD_FACT	(0.97f)	//à⁄ìÆó ÇÃå∏êäåWêî
+#define ROTATE_FACT	(0.04f)	//å¸Ç´ÇÃï‚ê≥åWêî
 #define ROT_CURV	(D3DX_PI * 0.8f)	//åXÇØÇΩéûÇÃã»Ç™ÇËï˚
 #define MAX_MOVE	(1.75f)	//à⁄ìÆó ÇÃç≈ëÂ
 #define ROLL_FACT	(0.5f)	//ÉJÉÅÉâÇ™âÒì]Ç∑ÇÈî{ó¶
+#define SPEED_FORWARD	(0.1f)	//ëOêiÇ∑ÇÈâ¡ë¨ó 
 
 //***************************
 //ÉOÉçÅ[ÉoÉãêÈåæ
@@ -145,7 +147,7 @@ void UpdatePlayer(void)
 
 	//à íuÇ…à⁄ìÆó Çâ¡éZ
 	g_player.pos += g_player.move;
-	g_player.move = g_player.move * MOVE_FACT;
+	g_player.move.x = g_player.move.x * MOVE_FACT;
 
 	//å¸Ç´ï‚ê≥èàóù
 	FactingRot(&g_player.rot.z,g_player.rotDest.z);
@@ -194,6 +196,7 @@ void ControlPlayerKeyboard(void)
 	//ïœêîêÈåæ
 	int nLeft = DIK_J;
 	int nRight = DIK_L;
+	int nForward = DIK_I;
 
 	//èÓïÒéÊìæ
 	Camera *pCamera = GetCamera();
@@ -240,6 +243,15 @@ void ControlPlayerKeyboard(void)
 	else
 	{
 		FactingRot(&pCamera->fRoll, D3DX_PI);
+	}
+
+	if (GetKeyboardPress(nForward))
+	{//ëOêi
+		g_player.move.z += SPEED_FORWARD;
+	}
+	else
+	{
+		g_player.move.z = g_player.move.z * FORWARD_FACT;
 	}
 	//à⁄ìÆ==================================
 
