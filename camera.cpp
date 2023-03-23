@@ -8,6 +8,7 @@
 #include "camera.h"
 #include "input.h"
 #include "debugproc.h"
+#include "player.h"
 
 //*****************************
 // マクロ定義
@@ -74,6 +75,9 @@ void UpdateCamera(void)
 {
 	//カメラの操作が入ってる関数
 	CameraOps();
+
+	//プレイヤー追従処理
+	FollowPlayer();
 }
 
 //====================================================================
@@ -97,6 +101,26 @@ void CameraOps(void)
 
 		//カメラのロール
 		CameraRoll(nCnt);
+	}
+}
+
+//====================================================================
+// プレイヤーの追従
+//====================================================================
+void FollowPlayer(void)
+{
+	//情報取得
+	Player *pPlayer = GetPlayer();
+
+	for (int nCnt = 0; nCnt < MAX_CAMERA; nCnt++)
+	{
+		//プレイヤーの位置を注視点に設定
+		g_aCamera[nCnt].posR = pPlayer->pos;
+
+		//視点の相対位置設定
+		g_aCamera[nCnt].posV.x = g_aCamera[nCnt].posR.x;
+		g_aCamera[nCnt].posV.y = g_aCamera[nCnt].posR.y + 50.0f;			//視点Y
+		g_aCamera[nCnt].posV.z = g_aCamera[nCnt].posR.z + g_aCamera[nCnt].fLengthCamera;
 	}
 }
 
@@ -339,6 +363,7 @@ void SetCamera(int nIdx)
 	D3DXMATRIX rotationZMatrix;
 	D3DXMatrixRotationZ(&rotationZMatrix, g_aCamera[nIdx].fRoll); // Z軸回転行列の計算
 	D3DXMATRIX viewMatrixWithRotation = rotationZMatrix * g_aCamera[nIdx].mtxView; // Z軸回転を加えたビュー行列
+
 	//ビューマトリックスの設定
 	pDevice->SetTransform(D3DTS_VIEW, &viewMatrixWithRotation);
 
@@ -357,7 +382,7 @@ void SetCamera(int nIdx)
 //====================================================================
 //カメラの情報のポインタ
 //====================================================================
-Camera GetCamera(void)
+Camera *GetCamera(void)
 {
-	return g_aCamera[0];
+	return &g_aCamera[0];
 }
