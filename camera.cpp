@@ -47,7 +47,7 @@ void InitCamera(void)
 		g_aCamera[nCntCamera].posR	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		g_aCamera[nCntCamera].vecU	= D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		
-		g_aCamera[nCntCamera].rot	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aCamera[nCntCamera].rot	= D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);
 		g_aCamera[nCntCamera].fRoll = 0.0f;
 		g_aCamera[nCntCamera].fLengthCamera	= CAMERA_DISTANCE;						//注視点から視点間の距離
 		g_aCamera[nCntCamera].bUse	= false;
@@ -78,7 +78,7 @@ void UpdateCamera(void)
 	CameraOps();
 
 	//プレイヤー追従処理
-	FollowPlayer();
+	//FollowPlayer();
 }
 
 //====================================================================
