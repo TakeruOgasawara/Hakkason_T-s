@@ -55,6 +55,9 @@ void InitGame(void)
 	InitMeshField();
 	InitField();
 
+	//タイムの初期化
+	InitTime();
+
 	//プレイヤーの初期化
 	InitPlayer();
 
@@ -87,6 +90,9 @@ void UninitGame(void)
 	//エフェクトの終了処理
 	UninitEffect();
 
+	//タイムの終了
+	UninitTime();
+
 	//パーティクルの終了処理
 	UninitParticle();
 
@@ -112,6 +118,9 @@ void UpdateGame(void)
 
 		//プレイヤーの更新
 		UpdatePlayer();
+
+		//タイムの更新
+		UpdateTime();
 
 		if (GetKeyboardTrigger(DIK_P) == true || GetJoyPadTrigger(BUTTON_START, 0) == true)
 		{//キーが押された場合
@@ -191,6 +200,9 @@ void DrawGame(void)
 
 	//プレイヤーの描画
 	DrawPlayer();
+
+	//タイムの描画
+	DrawTime();
 	
 	if (pPause->bPause == true)
 	{//ポーズ中だった場合
