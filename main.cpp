@@ -31,7 +31,7 @@
 //*****************************
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPalam);
 HRESULT Init(HINSTANCE hInstance, HWND hwnd, BOOL bWindow);							//‰Šú‰»ˆ—
-void Uninit(void);				
+void Uninit(void);
 void Update(void);
 void Draw(void);
 void DrawFPS(void);				//FPS‚Ì•\¦ˆ—

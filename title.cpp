@@ -340,9 +340,9 @@ void TileFade(void)
 		{//フェードイン状態
 			g_StartColor.a -= 0.2f;			//ポリゴンを透明にしていく
 
-			if (g_StartColor.a <= 0.0f)
+			if (g_StartColor.a <= 0.4f)
 			{
-				g_StartColor.a = 0.0f;
+				g_StartColor.a = 0.4f;
 
 				g_Start = TITLESTATE_OUT;
 			}
@@ -408,13 +408,14 @@ void TileFade(void)
 //========================================================================
 void DrawTitle(void)
 {
+	//タイトルカメラの描画
+	DrawTitleCamera();
+
 	//タイトルロゴの描画処理
 	DrawTitleFont();
 
 	//セレクト文字の描画処理
 	DrawTitleStart();
-
-	DrawTitleCamera();
 }
 
 //-----------------------------------------------------------
@@ -479,6 +480,8 @@ void DrawTitleStart(void)
 void InitTitleCamera(void)
 {
 	InitLight();
+
+	InitCamera();
 	
 	InitField();
 }
@@ -528,7 +531,6 @@ void DrawTitleCamera(void)
 	SetCamera(0);
 
 	DrawField();
-
 
 #ifdef _DEBUG		//デバッグ時のみ
 	PrintDebugProc("【カメラ情報】\n");
