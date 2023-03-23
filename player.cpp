@@ -21,6 +21,7 @@
 #define ROTATE_FACT	(0.05f)	//向きの補正係数
 #define ROT_CURV	(D3DX_PI * 0.8f)	//傾けた時の曲がり方
 #define MAX_MOVE	(1.75f)	//移動量の最大
+#define ROLL_FACT	(0.5f)	//カメラが回転する倍率
 
 //***************************
 //グローバル宣言
@@ -212,8 +213,12 @@ void ControlPlayerKeyboard(void)
 		{//プラス方向に進んでいる場合
 			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
 		}
+
+		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
+
+		pCamera->fRoll *= ROLL_FACT;
 	}
-	if (GetKeyboardPress(nRight))
+	else if (GetKeyboardPress(nRight))
 	{//右移動
 		//移動量加算
 		g_player.move.x += MOVE_SPEED;
@@ -227,6 +232,14 @@ void ControlPlayerKeyboard(void)
 		{//プラス方向に進んでいる場合
 			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
 		}
+
+		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
+
+		pCamera->fRoll *= ROLL_FACT;
+	}
+	else
+	{
+		FactingRot(&pCamera->fRoll, D3DX_PI);
 	}
 	//移動==================================
 
