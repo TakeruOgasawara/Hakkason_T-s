@@ -212,9 +212,6 @@ void ControlPlayerKeyboard(void)
 		{//プラス方向に進んでいる場合
 			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
 		}
-
-		//カメラの傾き設定
-		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 	}
 	if (GetKeyboardPress(nRight))
 	{//右移動
@@ -230,9 +227,6 @@ void ControlPlayerKeyboard(void)
 		{//プラス方向に進んでいる場合
 			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV - D3DX_PI);
 		}
-
-		//カメラの傾き設定
-		FactingRot(&pCamera->fRoll, -g_player.rotDest.z);
 	}
 	//移動==================================
 
