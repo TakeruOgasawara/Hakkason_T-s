@@ -1,2 +1,6 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
+<<<<<<< HEAD
+Debug|Win32|C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\|
+=======
 Debug|Win32|C:\Users\student\Documents\hakadson\Hakkason_T-s - コピー\|
+>>>>>>> 00046c51ed9bd991c74975e8b1470a6f63831872
