@@ -30,19 +30,20 @@ void UpdateEnemy(void)
 		g_nEnemyCountTime = 0;
 			int nRand = rand() % 4;
 			float fDis = pPlayer->pos.z + (float)(rand() % 7000) + 5000.0f;
+			float fMiss = (float)(rand() % 40) - 20.00f;
 			switch (nRand)
 			{
 			case 0:
-				SetEnemy(D3DXVECTOR3(-100.0f, 0.0f, fDis), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f));
+				SetEnemy(D3DXVECTOR3(-100.0f + fMiss, 0.0f, fDis), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f));
 				break;
 			case 1:
-				SetEnemy(D3DXVECTOR3(-40.0f, 0.0f, fDis), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f));
+				SetEnemy(D3DXVECTOR3(-40.0f + fMiss, 0.0f, fDis), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f));
 				break;
 			case 2:
-				SetEnemy(D3DXVECTOR3(40.0f, 0.0f, fDis), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -10.0f));
+				SetEnemy(D3DXVECTOR3(40.0f + fMiss, 0.0f, fDis), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -10.0f));
 				break;
 			case 3:
-				SetEnemy(D3DXVECTOR3(100.0f, 0.0f, fDis), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -10.0f));
+				SetEnemy(D3DXVECTOR3(100.0f + fMiss, 0.0f, fDis), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -10.0f));
 				break;
 			default:
 				break;

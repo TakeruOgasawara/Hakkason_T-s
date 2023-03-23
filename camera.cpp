@@ -352,13 +352,14 @@ void SetCamera(int nIdx)
 {
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
+	//プレイヤーの取得	
+	Player*pPlayer = GetPlayer();
 	//プロジェクションマトリックスの初期化
 	D3DXMatrixIdentity(&g_aCamera[nIdx].mtxProjection);
 
 	//プロジェクションマトリックスを作成
 	D3DXMatrixPerspectiveFovLH(&g_aCamera[nIdx].mtxProjection,
-		D3DXToRadian(45.0f),										//視野角
+		D3DXToRadian(45.0f + (pPlayer->move.z /2)),										//視野角
 		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,					//画面のアスペクト比
 		10.0f,														//z値の最小値
 		10000.0f);													//z値の最大値

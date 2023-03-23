@@ -177,9 +177,10 @@ void UpdatePlayer(void)
 		g_player.move.x = g_player.move.x * MOVE_FACT;
 	if (CollisionEnemy(&g_player.pos, &g_player.posOld) == true)
 	{
+		g_player.bUse = false;
 		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 50.0f, 5.0f, 15, 1, 20, 80, 629, 100);
 		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100.0f, 5.0f, 30, 0, 1, 120, 314, 30);
-	
+		SetGameState(GAMESTATE_END, 60);
 	}
 	
 	//å¸Ç´ï‚ê≥èàóù
@@ -281,10 +282,10 @@ void FactingRot(float *pfRot, float fRotDest)
 void ControlPlayerKeyboard(void)
 {
 	//ïœêîêÈåæ
-	int nLeft = DIK_J;
-	int nRight = DIK_L;
-	int nForward = DIK_I;
-	int nBreake = DIK_K;
+	int nLeft = DIK_A;
+	int nRight = DIK_D;
+	int nForward = DIK_W;
+	int nBreake = DIK_S;
 
 	
 
@@ -373,13 +374,13 @@ void ControlPlayerPad(void)
 	}
 	//â°à⁄ìÆ========================
 
-	if (GetJoyPadPress(BUTTON_RB,0))
+	if (GetJoyPadPress(BUTTON_RB,0) || GetJoyPadPress(BUTTON_A, 0))
 	{
 		g_player.move.z += SPEED_FORWARD;
 	}
 	else
 	{
-		if (GetJoyPadPress(BUTTON_LB, 0))
+		if (GetJoyPadPress(BUTTON_LB, 0) || GetJoyPadPress(BUTTON_B, 0))
 		{//ÉuÉåÅ[ÉL
 			g_player.move.z = g_player.move.z * BREAKE_FACT;
 		}
