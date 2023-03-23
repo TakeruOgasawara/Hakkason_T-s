@@ -15,6 +15,7 @@
 #include "particle.h"
 #include "collision.h"
 #include "game.h"
+#include "sound.h"
 
 //***************************
 // マクロ定義
@@ -37,6 +38,7 @@
 //グローバル宣言
 //***************************
 Player g_player;
+int g_nCountSound;
 
 //===========================
 // 初期化処理
@@ -45,7 +47,7 @@ void InitPlayer(void)
 {
 	//各種変数の初期化
 	ZeroMemory(&g_player,sizeof(Player));
-
+	g_nCountSound = 0;
 	g_player.bUse = true;
 
 	//ファイルからモデルを読み込む
@@ -149,6 +151,18 @@ void UninitPlayer(void)
 //===========================
 void UpdatePlayer(void)
 {
+	if (g_player.move.z > 2.0f)
+	{
+		if (g_nCountSound > 60)
+		{
+			PlaySound(SOUND_LABEL_SE_BAIKU);
+
+			g_nCountSound = 0;
+		}
+
+		g_nCountSound++;
+	}
+
 	if (g_player.bUse == true)
 	{
 		//キーボード操作
