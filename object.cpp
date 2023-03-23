@@ -27,7 +27,7 @@ const char *c_apModelnameObject[] =
 //*****************************
 const char *c_apObjTxtName[MAX_WAVE] =
 {
-	"data\\TXT\\object\\SetObject00.txt",
+	"data\\MODEL\\object\\SetObject00.txt",
 };
 
 //*****************************
