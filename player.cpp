@@ -13,6 +13,8 @@
 #include "camera.h"
 #include "Enemy.h"
 #include "particle.h"
+#include "collision.h"
+#include "game.h"
 
 //***************************
 // マクロ定義
@@ -41,6 +43,8 @@ void InitPlayer(void)
 {
 	//各種変数の初期化
 	ZeroMemory(&g_player,sizeof(Player));
+
+	g_player.bUse = true;
 
 	//ファイルからモデルを読み込む
 	FILE *pFile = fopen("data\\MOTION\\baiku.txt", "r");
@@ -143,46 +147,56 @@ void UninitPlayer(void)
 //===========================
 void UpdatePlayer(void)
 {
-	//キーボード操作
-	ControlPlayerKeyboard();
-
-	//パッド操作
-	ControlPlayerPad();
-
-	//位置に移動量を加算
-	g_player.pos += g_player.move;
-	g_player.move.x = g_player.move.x * MOVE_FACT;
-
-	/*if (CollisionOuterProductEnemy(&g_player.pos, &g_player.posOld, &g_player.move) == true)
+	if (g_player.bUse == true)
 	{
-		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100.0f, 5.0f, 15, 1, 20, 80, 629, 100);
-		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 300.0f, 5.0f, 30, 0, 1, 120, 314, 30);
-	
-	}*/
-	
-	//向き補正処理
-	FactingRot(&g_player.rot.z, g_player.rotDest.z);
-	FactingRot(&g_player.rot.y,g_player.rotDest.y);
+		//キーボード操作
+		ControlPlayerKeyboard();
 
-	//プレイヤーの傾き設定====================================
-	if (g_player.move.x < 0.0f)
-	{//マイナス方向に進んでいる場合
-		g_player.rotDest.z = -D3DX_PI + -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Z - -D3DX_PI);
-	}
-	else
-	{//プラス方向に進んでいる場合
-		g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV_Z - D3DX_PI);
-	}
+		//パッド操作
+		ControlPlayerPad();
 
-	if (g_player.move.x < 0.0f)
-	{//マイナス方向に進んでいる場合
-		g_player.rotDest.y = -D3DX_PI - -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Y - -D3DX_PI);
+
+		//位置に移動量を加算
+		g_player.pos += g_player.move;
+		g_player.move.x = g_player.move.x * MOVE_FACT;
+
+		/*if (CollisionOuterProductEnemy(&g_player.pos, &g_player.posOld, &g_player.move) == true)
+		{
+			SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100.0f, 5.0f, 15, 1, 20, 80, 629, 100);
+			SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 300.0f, 5.0f, 30, 0, 1, 120, 314, 30);
+		}*/
+
+		//大人の壁
+		if (ClsAdultWall(&g_player.pos, 25.0f) == true)
+		{
+			g_player.bUse = false;
+			SetGameState(GAMESTATE_END, 60);
+		}
+
+		//向き補正処理
+		FactingRot(&g_player.rot.z, g_player.rotDest.z);
+		FactingRot(&g_player.rot.y, g_player.rotDest.y);
+
+		//プレイヤーの傾き設定====================================
+		if (g_player.move.x < 0.0f)
+		{//マイナス方向に進んでいる場合
+			g_player.rotDest.z = -D3DX_PI + -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Z - -D3DX_PI);
+		}
+		else
+		{//プラス方向に進んでいる場合
+			g_player.rotDest.z = D3DX_PI + (g_player.move.x / MAX_MOVE) * (ROT_CURV_Z - D3DX_PI);
+		}
+
+		if (g_player.move.x < 0.0f)
+		{//マイナス方向に進んでいる場合
+			g_player.rotDest.y = -D3DX_PI - -(g_player.move.x / MAX_MOVE) * (-ROT_CURV_Y - -D3DX_PI);
+		}
+		else
+		{//プラス方向に進んでいる場合
+			g_player.rotDest.y = D3DX_PI - (g_player.move.x / MAX_MOVE) * (ROT_CURV_Y - D3DX_PI);
+		}
+		//プレイヤーの傾き設定====================================
 	}
-	else
-	{//プラス方向に進んでいる場合
-		g_player.rotDest.y = D3DX_PI - (g_player.move.x / MAX_MOVE) * (ROT_CURV_Y - D3DX_PI);
-	}
-	//プレイヤーの傾き設定====================================
 }
 
 //===========================
@@ -331,81 +345,84 @@ void DrawPlayer(void)
 	D3DMATERIAL9 matDef;			//現在のマテリアル保存用
 	D3DXMATERIAL *pMat;				//マテリアルデータへのポインタ
 
-	//ワールドマトリックス初期化
-	D3DXMatrixIdentity(&g_player.mtxWorld);
-
-	//向きを反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot,
-		g_player.rot.y, g_player.rot.x, g_player.rot.z);
-	D3DXMatrixMultiply(&g_player.mtxWorld, &g_player.mtxWorld, &mtxRot);
-
-	//位置を反映
-	D3DXMatrixTranslation(&mtxTrans,
-		g_player.pos.x, g_player.pos.y, g_player.pos.z);
-	D3DXMatrixMultiply(&g_player.mtxWorld, &g_player.mtxWorld, &mtxTrans);
-
-	//ワールドマトリックス設定
-	pDevice->SetTransform(D3DTS_WORLD, &g_player.mtxWorld);
-
-	//情報取得
-	int nNumPart = GetNumPlayerPart();
-	Model *pModelPlayer = GetplayerModel();
-
-	for (int nCntPlayer = 0; nCntPlayer < nNumPart; nCntPlayer++)
+	if (g_player.bUse == true)
 	{
-		//変数宣言
-		D3DXMATRIX mtxRotModel, mtxTransModel;
-		D3DXMATRIX mtxParent;
-
 		//ワールドマトリックス初期化
-		D3DXMatrixIdentity(&g_player.part[nCntPlayer].mtxWorld);
+		D3DXMatrixIdentity(&g_player.mtxWorld);
 
 		//向きを反映
-		D3DXMatrixRotationYawPitchRoll(&mtxRotModel,
-			g_player.part[nCntPlayer].rot.y, g_player.part[nCntPlayer].rot.x, g_player.part[nCntPlayer].rot.z);
-		D3DXMatrixMultiply(&g_player.part[nCntPlayer].mtxWorld, &g_player.part[nCntPlayer].mtxWorld, &mtxRotModel);
+		D3DXMatrixRotationYawPitchRoll(&mtxRot,
+			g_player.rot.y, g_player.rot.x, g_player.rot.z);
+		D3DXMatrixMultiply(&g_player.mtxWorld, &g_player.mtxWorld, &mtxRot);
 
 		//位置を反映
-		D3DXMatrixTranslation(&mtxTransModel,
-			g_player.part[nCntPlayer].pos.x, g_player.part[nCntPlayer].pos.y, g_player.part[nCntPlayer].pos.z);
-		D3DXMatrixMultiply(&g_player.part[nCntPlayer].mtxWorld, &g_player.part[nCntPlayer].mtxWorld, &mtxTransModel);
-
-		if (g_player.part[nCntPlayer].nIdxParent != -1)
-		{//親パーツがある場合
-			mtxParent = g_player.part[g_player.part[nCntPlayer].nIdxParent].mtxWorld;
-		}
-
-		else
-		{//親パーツがない場合
-			mtxParent = g_player.mtxWorld;
-		}
-
-		//親パーツとパーツのワールドマトリックスをかけ合わせる。
-		D3DXMatrixMultiply(&g_player.part[nCntPlayer].mtxWorld, &g_player.part[nCntPlayer].mtxWorld, &mtxParent);
+		D3DXMatrixTranslation(&mtxTrans,
+			g_player.pos.x, g_player.pos.y, g_player.pos.z);
+		D3DXMatrixMultiply(&g_player.mtxWorld, &g_player.mtxWorld, &mtxTrans);
 
 		//ワールドマトリックス設定
-		pDevice->SetTransform(D3DTS_WORLD, &g_player.part[nCntPlayer].mtxWorld);
+		pDevice->SetTransform(D3DTS_WORLD, &g_player.mtxWorld);
 
-		//現在のマテリアル取得
-		pDevice->GetMaterial(&matDef);
+		//情報取得
+		int nNumPart = GetNumPlayerPart();
+		Model *pModelPlayer = GetplayerModel();
 
-		//マテリアルデータへのポインタを取得
-		pMat = (D3DXMATERIAL*)pModelPlayer[nCntPlayer].pBuffMat->GetBufferPointer();
-
-		for (int nCntMat = 0; nCntMat < (int)pModelPlayer[nCntPlayer].dwNumMat; nCntMat++)
+		for (int nCntPlayer = 0; nCntPlayer < nNumPart; nCntPlayer++)
 		{
-			//マテリアル設定
-			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+			//変数宣言
+			D3DXMATRIX mtxRotModel, mtxTransModel;
+			D3DXMATRIX mtxParent;
 
-			//テクスチャ設定
-			pDevice->SetTexture(0, pModelPlayer[nCntPlayer].apTexture[nCntMat]);
+			//ワールドマトリックス初期化
+			D3DXMatrixIdentity(&g_player.part[nCntPlayer].mtxWorld);
 
-			//モデル（パーツ）描画
-			pModelPlayer[nCntPlayer].pMesh->DrawSubset(nCntMat);
+			//向きを反映
+			D3DXMatrixRotationYawPitchRoll(&mtxRotModel,
+				g_player.part[nCntPlayer].rot.y, g_player.part[nCntPlayer].rot.x, g_player.part[nCntPlayer].rot.z);
+			D3DXMatrixMultiply(&g_player.part[nCntPlayer].mtxWorld, &g_player.part[nCntPlayer].mtxWorld, &mtxRotModel);
+
+			//位置を反映
+			D3DXMatrixTranslation(&mtxTransModel,
+				g_player.part[nCntPlayer].pos.x, g_player.part[nCntPlayer].pos.y, g_player.part[nCntPlayer].pos.z);
+			D3DXMatrixMultiply(&g_player.part[nCntPlayer].mtxWorld, &g_player.part[nCntPlayer].mtxWorld, &mtxTransModel);
+
+			if (g_player.part[nCntPlayer].nIdxParent != -1)
+			{//親パーツがある場合
+				mtxParent = g_player.part[g_player.part[nCntPlayer].nIdxParent].mtxWorld;
+			}
+
+			else
+			{//親パーツがない場合
+				mtxParent = g_player.mtxWorld;
+			}
+
+			//親パーツとパーツのワールドマトリックスをかけ合わせる。
+			D3DXMatrixMultiply(&g_player.part[nCntPlayer].mtxWorld, &g_player.part[nCntPlayer].mtxWorld, &mtxParent);
+
+			//ワールドマトリックス設定
+			pDevice->SetTransform(D3DTS_WORLD, &g_player.part[nCntPlayer].mtxWorld);
+
+			//現在のマテリアル取得
+			pDevice->GetMaterial(&matDef);
+
+			//マテリアルデータへのポインタを取得
+			pMat = (D3DXMATERIAL*)pModelPlayer[nCntPlayer].pBuffMat->GetBufferPointer();
+
+			for (int nCntMat = 0; nCntMat < (int)pModelPlayer[nCntPlayer].dwNumMat; nCntMat++)
+			{
+				//マテリアル設定
+				pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+
+				//テクスチャ設定
+				pDevice->SetTexture(0, pModelPlayer[nCntPlayer].apTexture[nCntMat]);
+
+				//モデル（パーツ）描画
+				pModelPlayer[nCntPlayer].pMesh->DrawSubset(nCntMat);
+			}
+
+			//マテリアルを戻す
+			pDevice->SetMaterial(&matDef);
 		}
-
-		//マテリアルを戻す
-		pDevice->SetMaterial(&matDef);
 	}
 
 #ifdef _DEBUG		//デバッグ時のみ
