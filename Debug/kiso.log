@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-﻿  camera.cpp
+﻿  Fog.cpp
   kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.exe
   kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
-=======
-﻿  player.cpp
-  コードを生成中...
-  スキップ中... (関連する変更は検出されませんでした)
-  camera.cpp
-  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.exe
-  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
->>>>>>> d8b576d43f1f9c1e32ceba8f60f891c1709b330d
