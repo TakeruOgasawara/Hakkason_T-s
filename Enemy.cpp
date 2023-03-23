@@ -1,13 +1,16 @@
 #include "Enemy.h"
 #include "model.h"
+#include "player.h"
 
 //マクロ定義
 #define MAX_ENEMY (256)
 
 //グローバル変数
 ENEMY g_aEnemy[MAX_ENEMY];
+int g_nEnemyCountTime;
 void InitEnemy(void)
 {
+	g_nEnemyCountTime = 0;
 	for (int nCnt = 0; nCnt < MAX_ENEMY; nCnt++)
 	{
 		ZeroMemory(&g_aEnemy[nCnt], sizeof(ENEMY));
@@ -19,7 +22,46 @@ void UninitEnemy(void)
 }
 void UpdateEnemy(void)
 {
+	Player*pPlayer = GetPlayer();
+	g_nEnemyCountTime ++;
+	g_nEnemyCountTime += (int)pPlayer->move.z / 50;
+	if (g_nEnemyCountTime  >= 60)
+	{
+		g_nEnemyCountTime = 0;
+			int nRand = rand() % 4;
+			switch (nRand)
+			{
+			case 0:
+				SetEnemy(D3DXVECTOR3(-100.0f, 0.0f, pPlayer->pos.z + 10000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f));
+				break;
+			case 1:
+				SetEnemy(D3DXVECTOR3(-40.0f, 0.0f, pPlayer->pos.z + 10000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f));
+				break;
+			case 2:
+				SetEnemy(D3DXVECTOR3(40.0f, 0.0f, pPlayer->pos.z + 10000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -10.0f));
+				break;
+			case 3:
+				SetEnemy(D3DXVECTOR3(100.0f, 0.0f, pPlayer->pos.z + 10000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -10.0f));
+				break;
+			default:
+				break;
+			}
+			
+	}
+	
+	for (int nCnt = 0; nCnt < MAX_ENEMY; nCnt++)
+	{
+		if (g_aEnemy[nCnt].bUse == true)
+		{
+			g_aEnemy[nCnt].posOld = g_aEnemy[nCnt].pos;
+			g_aEnemy[nCnt].pos += g_aEnemy[nCnt].move;
 
+			if ((g_aEnemy[nCnt].pos.z - pPlayer->pos.z) < -1000.0f)
+			{
+				g_aEnemy[nCnt].bUse = false;
+			}
+		}
+	}
 }
 void DrawEnemy(void)
 {
@@ -31,7 +73,7 @@ void DrawEnemy(void)
 	{
 		if (g_aEnemy[nCnt].bUse == true)
 		{
-			Model *pEnemyModel = GetEnemyModel(g_aEnemy[nCnt].Type);
+			Model *pEnemyModel = GetEnemyModel(g_aEnemy[nCnt].nType);
 
 			//ワールドマトリクスの初期化
 			D3DXMatrixIdentity(&g_aEnemy[nCnt].mtxWorld);
@@ -70,6 +112,30 @@ void DrawEnemy(void)
 
 	}
 }
+void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot,D3DXVECTOR3 move)
+{
+	LPDIRECT3DDEVICE9 pDevice; //デバイスのポインタ
+	pDevice = GetDevice();
+
+	for (int nCnt = 0; nCnt < MAX_ENEMY; nCnt++)
+	{
+		if (g_aEnemy[nCnt].bUse == false)
+		{
+
+			int nNumVtx; //頂点数
+			DWORD dwSizeFVF; //頂点フォーマットのサイズ
+			BYTE*pVtxBuff; //頂点バッファへのポインタ
+
+			g_aEnemy[nCnt].pos = pos;
+			g_aEnemy[nCnt].move = move;
+			g_aEnemy[nCnt].rot = rot;
+			g_aEnemy[nCnt].nType = 0;
+
+			g_aEnemy[nCnt].bUse = true;
+			break;
+		}
+	}
+}
 bool CollisionOuterProductEnemy(D3DXVECTOR3 *pPos, D3DXVECTOR3 *pPosOld, D3DXVECTOR3 *pMove)
 {
 	//移動ベクトルを割り出す
@@ -79,7 +145,7 @@ bool CollisionOuterProductEnemy(D3DXVECTOR3 *pPos, D3DXVECTOR3 *pPosOld, D3DXVEC
 	{
 		if (g_aEnemy[nCnt].bUse == true)
 		{
-			Model *EnemyModel = GetEnemyModel(g_aEnemy[nCnt].Type);
+			Model *EnemyModel = GetEnemyModel(g_aEnemy[nCnt].nType);
 			for (int nLine = 0; nLine < 4; nLine++)
 			{
 				bool bHit = false;

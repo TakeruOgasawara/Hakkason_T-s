@@ -11,11 +11,7 @@
 #include "main.h"
 #include "model.h"
 
-typedef enum
-{
-	ENEMY_TYPE_NONE = 0,
-	ENEMY_TYPE_MAX
-}ENEMY_TYPE;
+
 
 typedef struct
 {
@@ -24,7 +20,7 @@ typedef struct
 	D3DXVECTOR3 rot;
 	D3DXVECTOR3 move;
 	D3DXMATRIX mtxWorld;
-	ENEMY_TYPE Type;
+	int nType;
 	bool bUse;
 }ENEMY;
 
@@ -33,7 +29,7 @@ void InitEnemy(void);
 void UninitEnemy(void);
 void UpdateEnemy(void);
 void DrawEnemy(void);
-void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 move, ENEMY_TYPE Type);
+void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move);
 bool CollisionOuterProductEnemy(D3DXVECTOR3 *pPos, D3DXVECTOR3 *pPosOld, D3DXVECTOR3 *pMove);
 
 #endif

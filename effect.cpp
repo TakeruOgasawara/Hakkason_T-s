@@ -1,15 +1,8 @@
-//========================================================================================
-//
-// エフェクトの処理[Effect.cpp]
-// Author: 丹野 竜之介
-//
-//========================================================================================
-
 #include "Effect.h"
 
 
 //プロトタイプ宣言
-#define MAX_Effect (40480)
+#define MAX_Effect (48000)
 #define NUM_EFFECT (2)
 
 //構造体を宣言
@@ -49,7 +42,7 @@ void InitEffect(void)
 
 	//テクスチャ読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data\\TEXTURE\\Shadow000.jpg",
+		"data\\TEXTURE\\shadow000.jpg",
 		&g_pTextureEffect[0]);
 	D3DXCreateTextureFromFile(pDevice,
 		"data\\TEXTURE\\effect002.tga",
@@ -179,14 +172,14 @@ void DrawEffect(void)
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 						
-	//アルファテストを有効化
+						//アルファテストを有効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 80);
 
-	////Zテストを無効化
-	//pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-	//pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//Zテストを無効化
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	for (int nCnt = 0; nCnt < MAX_Effect; nCnt++)
 	{
@@ -234,9 +227,9 @@ void DrawEffect(void)
 			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCnt * 4, 2);
 		}
 	}
-	////Zテストを有効化
-	//pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-	//pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//Zテストを有効化
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 	//アルファテストを無効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);

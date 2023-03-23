@@ -1,3 +1,6 @@
-﻿  player.cpp
-  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.exe
-  kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
+﻿  Enemy.cpp
+c:\users\student\desktop\チーム制作\hakkason_t-s\enemy.cpp(125): warning C4101: 'nNumVtx': ローカル変数は 1 度も使われていません。
+c:\users\student\desktop\チーム制作\hakkason_t-s\enemy.cpp(126): warning C4101: 'dwSizeFVF': ローカル変数は 1 度も使われていません。
+c:\users\student\desktop\チーム制作\hakkason_t-s\enemy.cpp(127): warning C4101: 'pVtxBuff': ローカル変数は 1 度も使われていません。
+  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.exe
+  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.pdb (Full PDB)

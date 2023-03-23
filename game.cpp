@@ -17,6 +17,7 @@
 #include "camera.h"
 #include "light.h"
 #include "player.h"
+#include "Enemy.h"
 
 //*****************************
 // プロトタイプ宣言
@@ -61,6 +62,7 @@ void InitGame(void)
 	//プレイヤーの初期化
 	InitPlayer();
 
+	InitEnemy();
 	//通常状態へ
 	g_gameState = GAMESTATE_NORMAL;
 
@@ -87,6 +89,7 @@ void UninitGame(void)
 	//プレイヤー終了処理
 	UninitPlayer();
 
+	UninitEnemy();
 	//エフェクトの終了処理
 	UninitEffect();
 
@@ -121,6 +124,12 @@ void UpdateGame(void)
 
 		//タイムの更新
 		UpdateTime();
+
+		UpdateEnemy();
+
+		UpdateEffect();
+
+		UpdateParticle();
 
 		if (GetKeyboardTrigger(DIK_P) == true || GetJoyPadTrigger(BUTTON_START, 0) == true)
 		{//キーが押された場合
@@ -200,6 +209,8 @@ void DrawGame(void)
 
 	//プレイヤーの描画
 	DrawPlayer();
+
+	DrawEnemy();
 
 	//タイムの描画
 	DrawTime();
