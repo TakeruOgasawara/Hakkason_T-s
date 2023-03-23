@@ -121,7 +121,7 @@ void FollowPlayer(void)
 		//‹“_‚Ì‘Š‘ÎˆÊ’uİ’è
 		g_aCamera[nCnt].posV.x = g_aCamera[nCnt].posR.x;
 		g_aCamera[nCnt].posV.y = g_aCamera[nCnt].posR.y + 50.0f;			//‹“_Y
-		g_aCamera[nCnt].posV.z = g_aCamera[nCnt].posR.z + g_aCamera[nCnt].fLengthCamera;
+		g_aCamera[nCnt].posV.z = g_aCamera[nCnt].posR.z - g_aCamera[nCnt].fLengthCamera;
 	}
 }
 
