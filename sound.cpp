@@ -33,8 +33,9 @@ DWORD g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 {
-	{ "data/BGM/bgm_000.wav", -1},			// BGM
-	{ "data/SE/SE_enter000.wav", 0 },		// Enter
+	{ "data/BGM/bgm.cyber002.wav", -1},			// BGM
+	{ "data/BGM/bgm.cyber003.wav", -1 },		// BGM
+	{ "data/SE/Enter001.wav", 0 },				// Enter
 };
 
 //=============================================================================

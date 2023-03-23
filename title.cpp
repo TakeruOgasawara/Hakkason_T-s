@@ -146,7 +146,7 @@ void InitTitle(void)
 	InitTitleCamera();
 
 	//サウンドの再生
-	//PlaySound(SOUND_LABEL_BGM001);
+	PlaySound(SOUND_LABEL_BGM000);
 }
 
 //----------------------------------------
@@ -273,7 +273,7 @@ void InitTitleTutorial(int nCntTitle)
 void UninitTitle(void)
 {
 	//サウンドの停止
-	//StopSound();
+	StopSound();
 
 	for (int nCntTex = 0; nCntTex < NUM_TEX_BUFF0 + NUM_TEX_BUFF1; nCntTex++)
 	{
@@ -326,7 +326,7 @@ void TileFade(void)
 			if (g_TitleState == false)
 			{
 				//サウンドの再生
-				//PlaySound(SOUND_LABEL_SE_ENTER);
+				PlaySound(SOUND_LABEL_SE_ENTER);
 
 				//スタート文字を点滅状態へ
 				g_TitleState = true;
