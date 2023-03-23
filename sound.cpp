@@ -36,6 +36,7 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 	{ "data/BGM/bgm.cyber002.wav", -1},			// BGM
 	{ "data/BGM/bgm.cyber003.wav", -1 },		// BGM
 	{ "data/SE/Enter001.wav", 0 },				// Enter
+	{ "data/SE/baiku.wav", 0 },				// baiku
 };
 
 //=============================================================================
