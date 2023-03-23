@@ -13,6 +13,7 @@
 // マクロ定義
 //*****************************************
 #define NUM_TEX	(10)	//テクスチャの数
+#define MAX_PART	(24)	//パーツの最大数
 
 //*****************************************
 // 構造体定義
@@ -38,7 +39,11 @@ void UninitXFile(Model *pModel);
 //読み込み処理
 void LoadModel(Model *pModel, const char *pFilePass);	//汎用読み込み処理
 void LoadAllModel(void);	//読み込み処理まとめ
+void LoadPlayermodel(void);
 
 //情報取得
+Model *GetplayerModel(void);
+
+int GetNumPlayerPart(void);
 
 #endif

@@ -10,6 +10,7 @@
 //*****************************************
 #include "main.h"
 #include "model.h"
+#include <stdio.h>
 
 //*****************************************
 // マクロ定義
@@ -19,12 +20,17 @@
 //*****************************************
 // グローバル変数宣言
 //*****************************************
+Model g_aModelPlayer[MAX_PART];	//プレイヤーモデルの情報
+
+int g_nNumPlayerPart;	//プレイヤーパーツの数
 
 //========================================
 //初期化処理
 //========================================
 void InitModel(void)
 {
+	//プレイヤーモデル情報初期化
+	ZeroMemory(&g_aModelPlayer[0], sizeof(Model) * MAX_PART);
 }
 
 //========================================
@@ -32,6 +38,10 @@ void InitModel(void)
 //========================================
 void UninitModel(void)
 {
+	for (int nCntPart = 0; nCntPart < MAX_PART; nCntPart++)
+	{//プレイヤーモデル終了処理
+		UninitXFile(&g_aModelPlayer[nCntPart]);
+	}
 }
 
 //========================================
@@ -39,6 +49,64 @@ void UninitModel(void)
 //========================================
 void LoadAllModel(void)
 {
+	LoadPlayermodel();
+}
+
+//========================================
+// プレイヤーモデル読み込み
+//========================================
+void LoadPlayermodel(void)
+{
+	//変数宣言
+	char cTemp[MAX_STRING];
+	int nCntMotion = 0;
+	char acFilenamePlayer[MAX_PART][MAX_STRING];
+
+	//ファイルからモデルを読み込む
+	FILE *pFile = fopen("data\\MOTION\\player.txt", "r");
+
+	while (1)
+	{
+		//文字読み込み
+		fscanf(pFile, "%s", &cTemp[0]);
+
+		//ファイル名読み込み=========================================
+		if (strcmp(cTemp, "NUM_MODEL") == 0)
+		{//モデル数読み込み
+			//"="読み込み
+			fscanf(pFile, "%s", &cTemp[0]);
+
+			//モデル数読み込み
+			fscanf(pFile, "%d", &g_nNumPlayerPart);
+
+			for (int nCntFile = 0; nCntFile < g_nNumPlayerPart;)
+			{//ファイル名読み込み
+			 //文字読み込み
+				fscanf(pFile, "%s", &cTemp[0]);
+
+				if (strcmp(cTemp, "MODEL_FILENAME") == 0)
+				{//ファイル名読み込み
+				 //"="読み込み
+					fscanf(pFile, "%s", &cTemp[0]);
+
+					//ファイル名取得
+					fscanf(pFile, "%s", &acFilenamePlayer[nCntFile][0]);
+
+					//Xファイルの読み込み
+					LoadModel(&g_aModelPlayer[nCntFile], acFilenamePlayer[nCntFile]);
+
+					//読み込んだモデル数カウンタ加算
+					nCntFile++;
+				}
+			}
+		}
+		//ファイル名読み込み=========================================
+
+		if (strcmp(cTemp, "END_SCRIPT") == 0)
+		{
+			break;
+		}
+	}
 }
 
 //========================================
@@ -128,6 +196,22 @@ void LoadModel(Model *pModel,const char *pFilePass)
 	//頂点バッファをアンロック
 	pModel->pMesh->UnlockVertexBuffer();
 	//最大・最小頂点数取得================================================
+}
+
+//========================================
+// プレイヤーモデル情報取得
+//========================================
+Model *GetplayerModel(void)
+{
+	return &g_aModelPlayer[0];
+}
+
+//========================================
+// プレイヤーモデル数取得
+//========================================
+int GetNumPlayerPart(void)
+{
+	return g_nNumPlayerPart;
 }
 
 //========================================
