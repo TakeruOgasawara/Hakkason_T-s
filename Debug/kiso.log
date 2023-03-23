@@ -1,39 +1,4 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-﻿  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.exe
-  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
-=======
-<<<<<<< HEAD
-﻿  field.cpp
-  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.exe
-  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-﻿  Fog.cpp
-  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.exe
-  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
-=======
-<<<<<<< HEAD
->>>>>>> 9dd91c9c34019517a6ecb35b9975e593094b89f8
-﻿  camera.cpp
+﻿  player.cpp
+cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
   kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.exe
   kiso.vcxproj -> C:\Users\student\Documents\hakadson\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> d8b576d43f1f9c1e32ceba8f60f891c1709b330d
->>>>>>> aeae1e9b6b2a3aa1fe11d0fdd04eacaf5fcb89ea
->>>>>>> da6e1b92557e71a8db5406ce4c14364a1ad6f94f
-=======
-﻿  particle.cpp
-  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.exe
-  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\Debug\kiso.pdb (Full PDB)
->>>>>>> b2aa257ef3fa3770683ea2edff90a45b38d22614
->>>>>>> e3db88d9b538ee116e40e2926f57c04e9d39b7d6
->>>>>>> 0f436871080d2e44078183fce647eb3e64c108e6
->>>>>>> 9dd91c9c34019517a6ecb35b9975e593094b89f8
