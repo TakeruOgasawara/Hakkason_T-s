@@ -1,8 +1,8 @@
-﻿  object.cpp
+﻿  game.cpp
   コード生成しています。
-  1 of 238 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  12 of 247 functions ( 4.9%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    3 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
-  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\kiso.exe
-  kiso.vcxproj -> C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\kiso.pdb (Full PDB)
+  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\kiso.exe
+  kiso.vcxproj -> C:\Users\Student\Desktop\チーム制作\Hakkason_T-s\kiso.pdb (Full PDB)

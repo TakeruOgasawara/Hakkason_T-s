@@ -20,6 +20,7 @@
 #include "Enemy.h"
 #include "fog.h"
 #include "object.h"
+#include "dome.h"
 
 //*****************************
 // マクロ定義
@@ -79,6 +80,8 @@ void InitGame(void)
 
 	InitObject();
 
+	InitDome();
+
 	//通常状態へ
 	g_gameState = GAMESTATE_NORMAL;
 
@@ -118,6 +121,7 @@ void UninitGame(void)
 	//ポーズの終了処理
 	UninitPause();
 
+	UninitDome();
 	//フォグの終了処理
 	UninitFog();
 
@@ -153,6 +157,8 @@ void UpdateGame(void)
 		UpdateEffect();
 
 		UpdateParticle();
+
+		UpdateDome();
 
 		if (GetKeyboardTrigger(DIK_P) == true || GetJoyPadTrigger(BUTTON_START, 0) == true)
 		{//キーが押された場合
@@ -228,6 +234,7 @@ void DrawGame(void)
 	//カメラのセット
 	SetCamera(0);
 
+	DrawDome();
 	//メッシュフィールドの描画処理
 	//DrawMeshField();
 	DrawField();

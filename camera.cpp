@@ -362,7 +362,7 @@ void SetCamera(int nIdx)
 		D3DXToRadian(45.0f + (pPlayer->move.z /2)),										//視野角
 		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,					//画面のアスペクト比
 		10.0f,														//z値の最小値
-		10000.0f);													//z値の最大値
+		1000000.0f);													//z値の最大値
 
 														//プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &g_aCamera[nIdx].mtxProjection);
