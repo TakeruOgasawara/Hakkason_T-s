@@ -1,1 +1,2 @@
-﻿LINK : fatal error LNK1201: プログラム データベース 'C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.pdb' に書き込み中にエラーが発生しました。ディスク容量の不足、無効なパス、または特権の不足が原因でないことを確認してください。
+﻿player.obj : error LNK2019: 未解決の外部シンボル "float __cdecl GetJoyStickLX(int)" (?GetJoyStickLX@@YAMH@Z) が関数 "void __cdecl ControlPlayerPad(void)" (?ControlPlayerPad@@YAXXZ) で参照されました。
+C:\Users\student\Desktop\Hakkason_T`s\Hakkason_T-s\Debug\kiso.exe : fatal error LNK1120: 1 件の未解決の外部参照
