@@ -63,7 +63,7 @@ void LoadPlayermodel(void)
 	char acFilenamePlayer[MAX_PART][MAX_STRING];
 
 	//ファイルからモデルを読み込む
-	FILE *pFile = fopen("data\\MOTION\\player.txt", "r");
+	FILE *pFile = fopen("data\\MOTION\\baiku.txt", "r");
 
 	while (1)
 	{
