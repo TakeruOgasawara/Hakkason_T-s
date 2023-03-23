@@ -1,147 +1,130 @@
-//======================================================================================
+//========================================================================================
 //
-//パーティクルの処理[Player.cpp]
-//Author;小笠原　彪
+// パーティクルの処理[particle.cpp]
+// Author: 丹野 竜之介
 //
-//======================================================================================
-#include "main.h"
+//========================================================================================
 #include "particle.h"
 #include "effect.h"
 
-//*****************************
-//マクロ定義
-//*****************************
-#define MAX_PARTICLE			(MAX_EFFECT)			//パーティクルの最大数
+#define MAX_PARTICLE (128)
 
-//*****************************
-//プロトタイプ宣言
-//*****************************
-void ParticleType(int nCntParticle);
-
-//*****************************
-//グローバル宣言
-//*****************************
-Particle g_aParticle[MAX_PARTICLE];			//パーティクルの情報
-
-//========================================================================
-// パーティクルの初期化処理
-//========================================================================
-void InitParticle(void)
+typedef struct
 {
-	//変数宣言
-	int nCntParticle;
+	D3DXVECTOR3 pos;	//位置
+	D3DXVECTOR3 move; //移動量
+	D3DXVECTOR3 movePos; //出現位置の移動量
+	D3DXVECTOR3 rot; //角度
+	D3DXCOLOR col; //色
+	float fMove; //移動量
+	float fRadius; //半径
+	int nLife; //寿命
+	int nEffect; //エフェクトの同時呼び出し数
+	int nEffectLife; //エフェクトの寿命
+	int nRand; //拡散度合い
+	int nMaxSpeed; //最高速度
+	bool bUse; //使用しているか
+	PARTICLE_TYPE  type;  //パーティクルの種類
+}Particle;
 
-	for (nCntParticle = 0; nCntParticle < MAX_PARTICLE; nCntParticle++)
+Particle g_aParticle[MAX_PARTICLE];
+
+void InitParticle()
+{
+	for (int nCntParticle = 0; nCntParticle < MAX_PARTICLE; nCntParticle++)
 	{
-		//構造体の初期化
 		g_aParticle[nCntParticle].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		g_aParticle[nCntParticle].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//移動量を初期化する
-		g_aParticle[nCntParticle].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//向きを初期化する(Z値を使用)
-		g_aParticle[nCntParticle].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
-		g_aParticle[nCntParticle].type = PARTICLE_TYPE_NONE;
-		g_aParticle[nCntParticle].fRadius = 0.0f;
-		g_aParticle[nCntParticle].nLife = 0;
-		g_aParticle[nCntParticle].bUse = false;				//使用していない状態にする
+		g_aParticle[nCntParticle].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aParticle[nCntParticle].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+		g_aParticle[nCntParticle].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		g_aParticle[nCntParticle].bUse = false;
+
+		g_aParticle[nCntParticle].type = PARTICLE_TYPE_KEY;
 	}
 }
-
-//========================================================================
-//パーティクルの終了処理
-//========================================================================
-void UninitParticle(void)
+void UninitParticle()
 {
 
 }
-
-//========================================================================
-// パーティクルの更新処理
-//========================================================================
-void UpdateParticle(void)
+void UpdateParticle()
 {
-	
-}
-
-//========================================================================
-// パーティクルタイプ0(火花)
-//========================================================================
-void ParticleType(int nCntParticle)
-{
-	//変数宣言
-	float fRot;
-	float fMove;
-
-	for (int nCntApper = 0; nCntApper < 20; nCntApper++)
+	float fRot;//角度
+	float fRot2;//角度
+	float fMove;//移動量
+	for (int nCntParticle = 0; nCntParticle < MAX_PARTICLE; nCntParticle++)
 	{
-		//位置の設定
-		//g_aParticle[nCntParticle].pos;
+		if (g_aParticle[nCntParticle].bUse == true)
+		{
+			for (int nCntAppear = 0; nCntAppear < g_aParticle[nCntParticle].nEffect; nCntAppear++)
+			{
+				g_aParticle[nCntParticle].nLife--;
+				fRot = (float)(rand() % g_aParticle[nCntParticle].nRand - g_aParticle[nCntParticle].nRand / 2) / 100.0f;
+				fRot2 = (float)(rand() % g_aParticle[nCntParticle].nRand - g_aParticle[nCntParticle].nRand / 2) / 100.0f;
+				fMove = (float)(rand() % g_aParticle[nCntParticle].nMaxSpeed) / 2;
+				g_aParticle[nCntParticle].move.x = cosf(fRot + g_aParticle[nCntParticle].rot.x) * sinf(fRot2 + g_aParticle[nCntParticle].rot.y) * fMove;
+				g_aParticle[nCntParticle].move.y = cosf(fRot + g_aParticle[nCntParticle].rot.x) * cosf(fRot2 + g_aParticle[nCntParticle].rot.y) *fMove;
+				g_aParticle[nCntParticle].move.z = sinf(fRot + g_aParticle[nCntParticle].rot.x) *fMove;
 
-		//角度の設定
-		fRot = (float)(rand() % 629 - 314) / 100.0f;
+				g_aParticle[nCntParticle].move += g_aParticle[nCntParticle].movePos / 2;
 
-		//移動量の設定
-		fMove = (float)(rand() % 30) / 10;
+				SetEffect(g_aParticle[nCntParticle].pos, g_aParticle[nCntParticle].col, g_aParticle[nCntParticle].move, g_aParticle[nCntParticle].fRadius, g_aParticle[nCntParticle].nEffectLife, g_aParticle[nCntParticle].type);
 
-		g_aParticle[nCntParticle].move.x = sinf(fRot) * fMove;
+				if (g_aParticle[nCntParticle].nLife <= 0)
+				{
+					g_aParticle[nCntParticle].bUse = false;
+				}
 
-		//角度の設定
-		fRot = (float)(rand() % 629 - 314) / 100.0f;
+				else
+				{
+					g_aParticle[nCntParticle].col.a -= 0.1f;
+					g_aParticle[nCntParticle].fRadius -= 0.1f;
+				}
+			}
+			switch (g_aParticle[nCntParticle].type)
+			{
+			case PARTICLE_TYPE_KEY:
 
-		//移動量の設定
-		fMove = (float)(rand() % 30) / 10;
+				KeyParticle();
 
-		g_aParticle[nCntParticle].move.y = cosf(fRot) * fMove;
-
-		//角度の設定
-		fRot = (float)(rand() % 629 - 314) / 100.0f;
-
-		//移動量の設定
-		fMove = (float)(rand() % 30) / 10;
-
-		g_aParticle[nCntParticle].move.z = sinf(fRot) * fMove;
-
-		//色の設定
-		g_aParticle[nCntParticle].col = D3DXCOLOR{ 1.0f, 0.6f, 0.3f, 1.0f };
-
-		//半径の設定
-		g_aParticle[nCntParticle].fRadius = 10.0f;
-	
-		//エフェクト設定
-		SetEffect(g_aParticle[nCntParticle].pos, g_aParticle[nCntParticle].move,
-			g_aParticle[nCntParticle].col, g_aParticle[nCntParticle].fRadius, g_aParticle[nCntParticle].nLife);
+				break;
+			}
+		}
 	}
 }
-
-//========================================================================
-//パーティクルの描画処理
-//========================================================================
-void DrawParticle(void)
+void DrawParticle()
 {
 
 }
-
-//========================================================================
-//パーティクルの設定処理
-//========================================================================
-void SetParticle(D3DXVECTOR3 pos, D3DXVECTOR3 rot, PARTICLE_TYPE type)
+void SetParticle(D3DXVECTOR3 pos, D3DXVECTOR3 move, D3DXCOLOR col, D3DXVECTOR3 rot, float fRad, float fMove, int nLife, PARTICLE_TYPE type, int nEffect, int nEffectLife, int nRand, int nMaxSpeed)
 {
 	for (int nCntParticle = 0; nCntParticle < MAX_PARTICLE; nCntParticle++)
 	{
 		if (g_aParticle[nCntParticle].bUse == false)
-		{//使用していない状態なら
+		{
 			g_aParticle[nCntParticle].pos = pos;
+			g_aParticle[nCntParticle].movePos = move;
 			g_aParticle[nCntParticle].rot = rot;
+			g_aParticle[nCntParticle].col = col;
+			g_aParticle[nCntParticle].fRadius = fRad;
 			g_aParticle[nCntParticle].type = type;
+			g_aParticle[nCntParticle].fMove = fMove;
+			g_aParticle[nCntParticle].nLife = nLife;
 			g_aParticle[nCntParticle].bUse = true;
-
-			switch (g_aParticle[nCntParticle].type)
-			{//タイプによる分岐
-			case PARTICLE_TYPE_HIT:
-				g_aParticle[nCntParticle].nLife = 100;
-				ParticleType(nCntParticle);
-				break;
-			}
-
+			g_aParticle[nCntParticle].nEffect = nEffect;
+			g_aParticle[nCntParticle].nEffectLife = nEffectLife;
+			g_aParticle[nCntParticle].nRand = nRand;
+			g_aParticle[nCntParticle].nMaxSpeed = nMaxSpeed;
 			break;
 		}
 	}
+}
+
+//==============================
+//鍵のパーティクル
+//==============================
+void KeyParticle(void)
+{
+	//鍵のパーティクルの色
+	D3DXCOLOR(0.5f, 0.0f, 0.5f, 1.0f);
 }
