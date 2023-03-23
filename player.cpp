@@ -163,8 +163,8 @@ void UpdatePlayer(void)
 		g_player.move.x = g_player.move.x * MOVE_FACT;
 	if (CollisionEnemy(&g_player.pos, &g_player.posOld) == true)
 	{
-		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100.0f, 5.0f, 15, 1, 20, 80, 629, 100);
-		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 300.0f, 5.0f, 30, 0, 1, 120, 314, 30);
+		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 50.0f, 5.0f, 15, 1, 20, 80, 629, 100);
+		SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100.0f, 5.0f, 30, 0, 1, 120, 314, 30);
 	
 	}
 	
@@ -182,6 +182,8 @@ void UpdatePlayer(void)
 		if (ClsAdultWall(&g_player.pos, 25.0f) == true)
 		{
 			g_player.bUse = false;
+			SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 50.0f, 5.0f, 15, 1, 20, 80, 629, 100);
+			SetParticle(g_player.pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.2f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100.0f, 5.0f, 30, 0, 1, 120, 314, 30);
 			SetGameState(GAMESTATE_END, 60);
 		}
 
