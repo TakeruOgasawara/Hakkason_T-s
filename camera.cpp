@@ -48,7 +48,7 @@ void InitCamera(void)
 		g_aCamera[nCntCamera].posR	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		g_aCamera[nCntCamera].vecU	= D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		
-		g_aCamera[nCntCamera].rot	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aCamera[nCntCamera].rot	= D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);
 		g_aCamera[nCntCamera].fRoll = 0.0f;
 		g_aCamera[nCntCamera].fLengthCamera	= CAMERA_DISTANCE;						//íçéãì_Ç©ÇÁéãì_ä‘ÇÃãóó£
 		g_aCamera[nCntCamera].bUse	= false;

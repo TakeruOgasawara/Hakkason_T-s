@@ -13,6 +13,7 @@
 #include "pause.h"
 #include "sound.h"
 #include "meshfield.h"
+#include "field.h"
 #include "camera.h"
 #include "light.h"
 #include "player.h"
@@ -52,6 +53,7 @@ void InitGame(void)
 
 	//メッシュフィールドの初期化処理
 	InitMeshField();
+	InitField();
 
 	//プレイヤーの初期化
 	InitPlayer();
@@ -93,6 +95,7 @@ void UninitGame(void)
 
 	//メッシュフィールドの終了処理
 	UninitMeshField();
+	UninitField();
 }
 
 //========================================================================
@@ -177,7 +180,8 @@ void DrawGame(void)
 	SetCamera(0);
 
 	//メッシュフィールドの描画処理
-	DrawMeshField();
+	//DrawMeshField();
+	DrawField();
 
 	//エフェクトの描画処理
 	DrawEffect();
